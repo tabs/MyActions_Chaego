@@ -1,4 +1,25 @@
+/*
+女装盲盒
+活动时间：2021-5-24至2021-6-22
+活动地址：https://anmp.jd.com/babelDiy/Zeus/sVeWYpCvtfH754mtAT13s8V1Yjt/index.html
+活动入口：京东app-女装馆-赢京豆
+已支持IOS双京东账号,Node.js支持N个京东账号
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+============Quantumultx===============
+[task_local]
+#女装盲盒
+35 1,23 * * * jd_nzmh.js, tag=女装盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
+================Loon==============
+[Script]
+cron "35 1,23 * * *" script-path=jd_nzmh.js,tag=女装盲盒
+
+===============Surge=================
+女装盲盒 = type=cron,cronexp="35 1,23 * * *",wake-system=1,timeout=3600,script-path=jd_nzmh.js
+
+============小火箭=========
+女装盲盒 = type=cron,script-path=jd_nzmh.js, cronexpr="35 1,23 * * *", timeout=3600, enable=true
+ */
 
 const $ = new Env('女装盲盒抽京豆');
 const notify = $.isNode() ? require('./sendNotify') : '';

@@ -13,8 +13,6 @@
 // 每个账号 shareCdoe 是一个 json，示例如下
 // {"smp":"22bdadsfaadsfadse8a","active":"jdnc_1_btorange210113_2","joinnum":"1"}
 let JxncShareCodes = [
-  '',//账号一的好友shareCode,不同好友中间用@符号隔开
-  '',//账号二的好友shareCode，不同好友中间用@符号隔开
 ]
 // 判断github action里面是否有京喜农场助力码
 if (process.env.JXNC_SHARECODES) {
@@ -27,9 +25,10 @@ if (process.env.JXNC_SHARECODES) {
   } else {
     JxncShareCodes = process.env.JXNC_SHARECODES.split();
   }
-} else if (process.env.JD_COOKIE) {
-  // console.log(`由于您secret里面未提供助力码，故此处运行将会给脚本内置的码进行助力，请知晓！`)
+} else {
+  console.log(`由于您环境变量里面(JXNC_SHARECODES)未提供助力码，故此处运行将会给脚本内置的码进行助力，请知晓！`)
 }
+JxncShareCodes = JxncShareCodes.filter(item => !!item);
 for (let i = 0; i < JxncShareCodes.length; i++) {
   const index = (i + 1 === 1) ? '' : (i + 1);
   exports['JxncShareCode' + index] = JxncShareCodes[i];

@@ -1,4 +1,11 @@
-
+/*
+美丽研究院
+更新时间:2021-05-08
+活动入口：京东app首页-美妆馆-底部中间按钮
+只支持Node.js支持N个京东账号
+脚本兼容: Node.js
+cron 1 7,12,19 * * * jd_beauty.js
+ */
 const $ = new Env('美丽研究院');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -351,7 +358,7 @@ async function mr() {
           }
           break
         case "material_produce_v2":
-          console.log(`【${vo.data.position}】上开始生产${vo?.data?.material_name}`)
+          console.log(`【${vo?.data?.position}】上开始生产${vo?.data?.material_name}`)
           client.send(`{"msg":{"type":"action","args":{},"action":"to_employee"}}`)
           $.pos.push(vo.data.position)
           break
