@@ -234,6 +234,9 @@ class JDJRValidator {
     console.log(puzzleX);
     const pos = new MousePosFaker(puzzleX).run();
     const d = getCoordinate(pos);
+
+    // console.log(pos[pos.length-1][2] -Date.now());
+    // await sleep(4500);
     await sleep(pos[pos.length - 1][2] - Date.now());
     const result = await JDJRValidator.jsonp('/slide/s.html', {d, ...this.data});
 
@@ -496,7 +499,11 @@ class MousePosFaker {
 }
 
 !(async () => {
-  fs.writeFileSync('./validate.txt', '', 'utf-8')
+  fs.writeFile('./validate.txt', '', 'utf-8', (err => {
+    if (err)
+      console.log(err)
+  }))
+
   let validate = '';
   let num = process.env.validate_num ? process.env.validate_num : 5;
   for (let i = 0; i < num; i++) {
