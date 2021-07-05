@@ -736,7 +736,7 @@ function login(userName) {
     const body = {
       "body": {
         "client": 2,
-        userName
+        "userName":userName.lkEPin
       }
     };
     const options = {
@@ -757,6 +757,7 @@ function login(userName) {
     $.post(options, async (err, resp, data) => {
       try {
         if (err) {
+          console.log(body)
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
@@ -796,8 +797,8 @@ function updateInviteCodeCDN(url) {
     $.get({url, headers:{"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")}, timeout: 200000}, async (err, resp, data) => {
       try {
         if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
+          //console.log(`${JSON.stringify(err)}`)
+          console.log(`助力码获取失败暂不帮助作者`)
         } else {
           $.inviteCodes = JSON.parse(data);
         }
