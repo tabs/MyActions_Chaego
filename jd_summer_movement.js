@@ -78,7 +78,9 @@ const UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT :
       console.log(`\n*****开始【京东账号${$.index}】${$.nickName || $.UserName}*****\n`);
       console.log(`\n如有未完成的任务，请多执行几次\n`);
       await movement()
-      if(!$.hotFlag){$.secretpInfo[$.UserName] = false;}//火爆账号不执行助力
+      if($.hotFlag){
+        $.secretpInfo[$.UserName] = true
+      } //火爆账号不执行助力
     }
   }
   // 助力
