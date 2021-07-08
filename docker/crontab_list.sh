@@ -53,6 +53,8 @@
 30 2,20 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 #燃动夏季
 10 0,6-23/1 * * * node /scripts/jd_summer_movement.js >> /scripts/logs/jd_summer_movement.log 2>&1
+#燃动夏季抽奖
+7 10,20 * * * node /scripts/jd_summer_movement_map.js >> /scripts/logs/jd_summer_movement_map.log 2>&1
 #新签到
 10 0,18 * * * node /scripts/jd_NewSign.js >> /scripts/logs/jd_NewSign.log 2>&1
 #早期福利
