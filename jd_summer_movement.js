@@ -101,12 +101,10 @@ const UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT :
       if(`${ShHelpFlag}` === "true"){
         if ($.ShInviteList && $.ShInviteList.length) console.log(`\n******开始内部京东账号【百元守卫站SH】助力*********\n`);
         for (let i = 0; i < $.ShInviteList.length && $.canHelp; i++) {
-          if(aabbiill()) {
             console.log(`${$.UserName} 去助力SH码 ${$.ShInviteList[i]}`);
             $.inviteId = $.ShInviteList[i];
             await takePostRequest('shHelp');
             await $.wait(1000);
-          }
         }
       }
       $.canHelp = true;
@@ -117,14 +115,12 @@ const UA = $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT :
       if ($.oneInviteInfo.ues === $.UserName || $.oneInviteInfo.max) {
         continue;
       }
-      if(aabbiill()){
         //console.log($.oneInviteInfo);
         $.inviteId = $.oneInviteInfo.inviteId;
         console.log(`${$.UserName}去助力${$.oneInviteInfo.ues},助力码${$.inviteId}`);
         //await takePostRequest('helpHomeData');
         await takePostRequest('help');
         await $.wait(2000);
-      }
     }
   }
   
