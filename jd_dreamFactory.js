@@ -51,7 +51,7 @@ if ($.isNode()) {
       $.pickEle = 0;
       $.pickFriendEle = 0;
       $.friendList = [];
-      $.canHelpFlag = true;//能否助力朋友(招工)
+      $.canHelpFlag = false;//能否助力朋友(招工)
       $.tuanNum = 0;//成团人数
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
