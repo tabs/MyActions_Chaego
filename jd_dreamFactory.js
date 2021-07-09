@@ -51,7 +51,7 @@ if ($.isNode()) {
       $.pickEle = 0;
       $.pickFriendEle = 0;
       $.friendList = [];
-      $.canHelpFlag = false;//能否助力朋友(招工)
+      $.canHelpFlag = true;//能否助力朋友(招工)
       $.tuanNum = 0;//成团人数
       await TotalBean();
       console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
@@ -70,7 +70,7 @@ if ($.isNode()) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.isLogin = true;
-      $.canHelp = true;//能否参团
+      $.canHelp = false;//能否参团
       await TotalBean();
       if (!$.isLogin) {
         continue
