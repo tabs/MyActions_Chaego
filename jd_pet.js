@@ -137,14 +137,16 @@ async function jdPet() {
       await energyCollect();//收集好感度
       await showMsg();
       console.log('全部任务完成, 如果帮助到您可以点下🌟STAR鼓励我一下, 明天见~');
-    } else if (initPetTownRes.code === '0'){
-      console.log(`初始化萌宠失败:  ${initPetTownRes.message}`);
+    } else {
+      console.log(`等待10秒后重试`);
+      await $.wait(10000);
+      await jdPet();
     }
   } catch (e) {
     $.logErr(e)
-    const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
-    if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
-    $.msg($.name, '', `${errMsg}`)
+    // const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
+    // if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
+    // $.msg($.name, '', `${errMsg}`)
   }
 }
 // 收取所有好感度
