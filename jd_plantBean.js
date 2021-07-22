@@ -393,37 +393,37 @@ function showTaskProcess() {
   })
 }
 //助力好友
-async function doHelp() {
-  for (let plantUuid of newShareCodes) {
-    console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${plantUuid}`);
-    if (!plantUuid) continue;
-    if (plantUuid === $.myPlantUuid) {
-      console.log(`\n跳过自己的plantUuid\n`)
-      continue
-    }
-    await helpShare(plantUuid);
-    if ($.helpResult && $.helpResult.code === '0') {
+//async function doHelp() {
+  //for (let plantUuid of newShareCodes) {
+   // console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${plantUuid}`);
+    //if (!plantUuid) continue;
+   // if (plantUuid === $.myPlantUuid) {
+     // console.log(`\n跳过自己的plantUuid\n`)
+     //continue
+   // }
+   // await helpShare(plantUuid);
+   // if ($.helpResult && $.helpResult.code === '0') {
       // console.log(`助力好友结果: ${JSON.stringify($.helpResult.data.helpShareRes)}`);
-      if ($.helpResult.data.helpShareRes) {
-        if ($.helpResult.data.helpShareRes.state === '1') {
-          console.log(`助力好友${plantUuid}成功`)
-          console.log(`${$.helpResult.data.helpShareRes.promptText}\n`);
-        } else if ($.helpResult.data.helpShareRes.state === '2') {
-          console.log('您今日助力的机会已耗尽，已不能再帮助好友助力了\n');
-          break;
-        } else if ($.helpResult.data.helpShareRes.state === '3') {
-          console.log('该好友今日已满9人助力/20瓶营养液,明天再来为Ta助力吧\n')
-        } else if ($.helpResult.data.helpShareRes.state === '4') {
-          console.log(`${$.helpResult.data.helpShareRes.promptText}\n`)
-        } else {
-          console.log(`助力其他情况：${JSON.stringify($.helpResult.data.helpShareRes)}`);
-        }
-      }
-    } else {
-      console.log(`助力好友失败: ${JSON.stringify($.helpResult)}`);
-    }
-  }
-}
+      //if ($.helpResult.data.helpShareRes) {
+        //if ($.helpResult.data.helpShareRes.state === '1') {
+         // console.log(`助力好友${plantUuid}成功`)
+          //console.log(`${$.helpResult.data.helpShareRes.promptText}\n`);
+        //} else if ($.helpResult.data.helpShareRes.state === '2') {
+         // console.log('您今日助力的机会已耗尽，已不能再帮助好友助力了\n');
+          //break;
+        //} else if ($.helpResult.data.helpShareRes.state === '3') {
+         // console.log('该好友今日已满9人助力/20瓶营养液,明天再来为Ta助力吧\n')
+        //} else if ($.helpResult.data.helpShareRes.state === '4') {
+         // console.log(`${$.helpResult.data.helpShareRes.promptText}\n`)
+        //} else {
+         // console.log(`助力其他情况：${JSON.stringify($.helpResult.data.helpShareRes)}`);
+       // }
+      //}
+   // } else {
+     // console.log(`助力好友失败: ${JSON.stringify($.helpResult)}`);
+   //}
+ // }
+//}
 function showMsg() {
   $.log(`\n${message}\n`);
   jdNotify = $.getdata('jdPlantBeanNotify') ? $.getdata('jdPlantBeanNotify') : jdNotify;
