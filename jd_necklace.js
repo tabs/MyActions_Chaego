@@ -121,11 +121,12 @@ async function doTask() {
     if (item.taskStage === 0) {
       console.log(`\n【${item.taskName}】 任务未领取,开始领取此任务`);
       const res = await necklace_startTask(item.id);
+      await $.wait(2000);
       if (res && res.rtn_code !== 0) continue
       console.log(`【${item.taskName}】 任务领取成功,开始完成此任务`);
-      await $.wait(1000);
+      await $.wait(2000);
       await reportTask(item);
-      await $.wait(1000);
+      await $.wait(2000);
     } else if (item.taskStage === 2) {
       console.log(`【${item.taskName}】 任务已做完,奖励未领取`);
     } else if (item.taskStage === 3) {
@@ -133,7 +134,7 @@ async function doTask() {
     } else if (item.taskStage === 1) {
       console.log(`\n【${item.taskName}】 任务已领取但未完成,开始完成此任务`);
       await reportTask(item);
-      await $.wait(1000);
+      await $.wait(2000);
     }
   }
 }
@@ -150,11 +151,15 @@ async function receiveBubbles() {
   }
 }
 async function sign() {
-  if ($.signInfo.todayCurrentSceneSignStatus === 1) {
-    console.log(`\n开始每日签到`)
-    await necklace_sign();
+  if ($.signInfo && $.signInfo.todayCurrentSceneSignStatus) {
+    if ($.signInfo.todayCurrentSceneSignStatus === 1) {
+      console.log(`\n开始每日签到`)
+      await necklace_sign();
+    } else {
+      console.log(`已签到\n`)
+    }
   } else {
-    console.log(`已签到\n`)
+    console.log(`未获取到签到信息\n`)
   }
 }
 async function reportTask(item = {}) {
@@ -374,7 +379,7 @@ function necklace_homePage() {
                 $.exchangeGiftConfigs = data.data.result.exchangeGiftConfigs || [];
                 $.lastRequestTime = data.data.result.lastRequestTime;
                 $.bubbles = data.data.result.bubbles;
-                $.signInfo = data.data.result.signInfo;
+                $.signInfo = data.data.result.signInfo || {};
                 $.totalScore = data.data.result.totalScore;
                 const config = $.exchangeGiftConfigs.filter(item => item['giftType'] === 1);
                 if (config && config[0]) {
@@ -454,7 +459,7 @@ function getCcTaskList(functionId, body, type = '3') {
         } else {
           if (safeGet(data)) {
             if (type === '3' && functionId === 'reportCcTask') console.log(`点击首页领券图标(进入领券中心浏览15s)任务:${data}`)
-            if (type === '4' && functionId === 'reportCcTask') console.log(`点击“券后9.9”任务:${data}`)
+            if (type === '4' && functionId === 'reportSinkTask') console.log(`点击“券后9.9”任务:${data}`)
             data = JSON.parse(data);
             //异常情况：{"code":"600","echo":"signature verification failed"}
             if (data['code'] === '600' && !hasSend) {
@@ -507,7 +512,7 @@ function getToken(timeout = 0){
         headers : {
           'Content-Type' : `text/plain;charset=UTF-8`
         },
-        body : `content={"appname":"50082","whwswswws":"","jdkey":"-a45046de9fbf-0a4fc8ec9548a7f9","body":{"platform":"1"}}`
+        body : `content={"appname":"50082","whwswswws":"","jdkey":"","body":{"platform":"1"}}`
       }
       $.post(url, async (err, resp, data) => {
         try {
