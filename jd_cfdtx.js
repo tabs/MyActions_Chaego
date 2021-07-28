@@ -36,7 +36,7 @@ $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : fal
 $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [];
-let cookiesArr = [], cookie = '', token, nowTimes, UA;
+let cookiesArr = [], cookie = '', token, nowTimes;
 let allMessage = '', message = ''
 
 if ($.isNode()) {
@@ -44,6 +44,7 @@ if ($.isNode()) {
     cookiesArr.push(jdCookieNode[item])
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+  if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0);
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
@@ -90,7 +91,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
       $.num = i
       $.info = {}
       $.money = 0
-      UA = `jdpingou;iPhone;4.13.0;14.4.2;${randomString()};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`
       token = await getJxToken()
       await cfd();
     }
@@ -106,8 +106,8 @@ async function cfd() {
   try {
     nowTimes = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)
     if ((nowTimes.getHours() === 11 || nowTimes.getHours() === 23) && nowTimes.getMinutes() === 59) {
-      let nowtime = new Date().Format("s.S")
-      let starttime = $.isNode() ? (process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME * 1 : 60) : ($.getdata('CFD_STARTTIME') ? $.getdata('CFD_STARTTIME') * 1 : 60);
+      let nowtime = new Date().Format("s")
+      let starttime = $.isNode() ? (process.env.CFD_STARTTIME ? process.env.CFD_STARTTIME * 1 : 59.9) : ($.getdata('CFD_STARTTIME') ? $.getdata('CFD_STARTTIME') * 1 : 59.9);
       if(nowtime < 59) {
         let sleeptime = (starttime - nowtime) * 1000;
         console.log(`等待时间 ${sleeptime / 1000}\n`);
@@ -120,7 +120,7 @@ async function cfd() {
       await $.wait(2000)
     }
 
-    const beginInfo = await getUserInfo()
+    const beginInfo = await getUserInfo(false);
     if (beginInfo.Fund.ddwFundTargTm === 0) {
       console.log(`还未开通活动，请先开通\n`)
       return
@@ -128,27 +128,29 @@ async function cfd() {
 
     console.log(`获取提现资格`)
     await cashOutQuali()
+    console.log(`提现`)
+    console.log(`提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制\n`)
+    await userCashOutState()
 
     await showMsg()
+
   } catch (e) {
     $.logErr(e)
   }
 }
 
 // 提现
-async function cashOutQuali() {
-  return new Promise(async (resolve) => {
-    $.get(taskUrl(`user/CashOutQuali`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), async (err, resp, data) => {
+function cashOutQuali() {
+  return new Promise((resolve) => {
+    $.get(taskUrl(`user/CashOutQuali`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
           console.log(`${$.name} CashOutQuali API请求失败，请检查网路重试`)
         } else {
-          data = JSON.parse(data)
-          if (data.iRet === 0 || data.iRet === 2034) {
-            console.log(data.iRet === 0 ? `获取提现资格成功\n` : `获取提现资格失败：${data.sErrMsg}\n`)
-            console.log(`提现\n提现金额：按库存轮询提现，0点场提1元以上，12点场提0.5元以上，12点后不做限制\n`)
-            await userCashOutState()
+          data = JSON.parse(data);
+          if (data.iRet === 0) {
+            console.log(`获取提现资格成功\n`)
           } else {
             console.log(`获取提现资格失败：${data.sErrMsg}\n`)
           }
@@ -188,7 +190,6 @@ async function userCashOutState(type = true) {
                       console.log(`提现成功：获得${$.money}元`)
                       break
                     } else {
-                      console.log(`提现失败：${cashOutRes.sErrMsg}`)
                       await userCashOutState()
                     }
                   } else {
@@ -201,7 +202,7 @@ async function userCashOutState(type = true) {
                 for(let key of Object.keys($.info.buildInfo.buildList)) {
                   let vo = $.info.buildInfo.buildList[key]
                   let body = `strBuildIndex=${vo.strBuildIndex}`
-                  let getBuildInfoRes = await getBuildInfo(body)
+                  let getBuildInfoRes = await getBuildInfo(body, vo)
                   let buildNmae;
                   switch(vo.strBuildIndex) {
                     case 'food':
@@ -224,7 +225,7 @@ async function userCashOutState(type = true) {
                   if(getBuildInfoRes.dwCanLvlUp > 0 && $.info.ddwCoinBalance >= getBuildInfoRes.ddwNextLvlCostCoin) {
                     console.log(`【${buildNmae}】满足升级条件，开始升级`)
                     const body = `ddwCostCoin=${getBuildInfoRes.ddwNextLvlCostCoin}&strBuildIndex=${getBuildInfoRes.strBuildIndex}`
-                    var buildLvlUpRes = await buildLvlUp(body)
+                    let buildLvlUpRes = await buildLvlUp(body)
                     if (buildLvlUpRes.iRet === 0) {
                       console.log(`【${buildNmae}】升级成功：获得${getBuildInfoRes.ddwLvlRich}财富\n`)
                       break
@@ -235,10 +236,11 @@ async function userCashOutState(type = true) {
                     console.log(`【${buildNmae}】不满足升级条件，跳过升级\n`)
                   }
                 }
-                if (buildLvlUpRes.iRet === 0) {
+                let userCashOutStateRes = await userCashOutState(false)
+                if (userCashOutStateRes.ddwUsrTodayGetRich >= userCashOutStateRes.ddwTodayTargetUnLockRich) {
                   await userCashOutState()
                 } else {
-                  console.log(`今日还未赚够${data.ddwTodayTargetUnLockRich}财富，无法提现`)
+                  console.log(`今日还未赚够${userCashOutStateRes.ddwTodayTargetUnLockRich}财富，无法提现`)
                 }
               }
             } else {
@@ -312,7 +314,7 @@ function buildLvlUp(body) {
 }
 
 // 获取用户信息
-function getUserInfo() {
+function getUserInfo(showInvite = true) {
   return new Promise(async (resolve) => {
     $.get(taskUrl(`user/QueryUserInfo`, `strPgUUNum=${token['farm_jstoken']}&strPgtimestamp=${token['timestamp']}&strPhoneID=${token['phoneid']}`), (err, resp, data) => {
       try {
@@ -323,19 +325,40 @@ function getUserInfo() {
           data = JSON.parse(data);
           const {
             buildInfo = {},
+            ddwRichBalance,
             ddwCoinBalance,
-            Fund = {}
+            sErrMsg,
+            strMyShareId,
+            dwLandLvl,
+            Fund = {},
+            StoryInfo = {}
           } = data;
+          if (showInvite) {
+            console.log(`\n获取用户信息：${sErrMsg}\n${$.showLog ? data : ""}`);
+            console.log(`\n当前等级:${dwLandLvl},金币:${ddwCoinBalance},财富值:${ddwRichBalance}\n`)
+          }
+          if (showInvite && strMyShareId) {
+            console.log(`财富岛好友互助码每次运行都变化,旧的可继续使用`);
+            console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${strMyShareId}\n\n`);
+            $.shareCodes.push(strMyShareId)
+          }
           $.info = {
             ...$.info,
             buildInfo,
+            ddwRichBalance,
             ddwCoinBalance,
-            Fund
+            strMyShareId,
+            dwLandLvl,
+            Fund,
+            StoryInfo
           };
           resolve({
             buildInfo,
+            ddwRichBalance,
             ddwCoinBalance,
-            Fund
+            strMyShareId,
+            Fund,
+            StoryInfo
           });
         }
       } catch (e) {
@@ -363,18 +386,11 @@ function taskUrl(function_path, body = '') {
       Referer:"https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
       "Accept-Encoding": "gzip, deflate, br",
       Host: "m.jingxi.com",
-      "User-Agent": UA,
+      "User-Agent":`jdpingou;iPhone;3.15.2;14.2.1;ea00763447803eb0f32045dcba629c248ea53bb3;network/wifi;model/iPhone13,2;appBuild/100365;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2015_311210;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
       "Accept-Language": "zh-cn",
     },
     timeout: 10000
   };
-}
-function randomString() {
-  return Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10) +
-    Math.random().toString(16).slice(2, 10)
 }
 
 function showMsg() {
@@ -395,9 +411,9 @@ function showMsg() {
 function TotalBean() {
   return new Promise(async resolve => {
     const options = {
-      url: "https://me-api.jd.com/user_new/info/GetJDUserInfoUnion",
+      url: "https://wq.jd.com/user_new/info/GetJDUserInfoUnion?sceneval=2",
       headers: {
-        Host: "me-api.jd.com",
+        Host: "wq.jd.com",
         Accept: "*/*",
         Connection: "keep-alive",
         Cookie: cookie,
@@ -414,11 +430,11 @@ function TotalBean() {
         } else {
           if (data) {
             data = JSON.parse(data);
-            if (data['retcode'] === "1001") {
+            if (data['retcode'] === 1001) {
               $.isLogin = false; //cookie过期
               return;
             }
-            if (data['retcode'] === "0" && data.data && data.data.hasOwnProperty("userInfo")) {
+            if (data['retcode'] === 0 && data.data && data.data.hasOwnProperty("userInfo")) {
               $.nickName = data.data.userInfo.baseInfo.nickname;
             }
           } else {
