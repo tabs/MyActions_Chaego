@@ -46,6 +46,10 @@ message = ""
     });
     return;
   }
+  if (process.env.JD_JOY_PARK && process.env.JD_JOY_PARK === 'false') {
+    console.log(`\n******检测到您设置了不运行汪汪乐园，停止运行此脚本******\n`)
+    return;
+  }
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
