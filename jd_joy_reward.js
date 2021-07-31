@@ -25,6 +25,7 @@ cron "58 7,15,23 * * *" script-path=jd_joy_reward.js,tag=宠汪汪积分兑换�
 ===============小火箭==========
 宠汪汪积分兑换奖品 = type=cron,script-path=jd_joy_reward.js, cronexpr="58 7,15,23 * * *", timeout=3600, enable=true
  */
+// @grant    require
 // prettier-ignore
 const $ = new Env('宠汪汪积分兑换奖品');
 const zooFaker = require('./JDJRValidator_Pure');
@@ -83,7 +84,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
         }
         continue
       }
-      $.validate[i] = zooFaker.injectToRequest()
+      $.validate[i] = await zooFaker.injectToRequest()
     }
   }
   console.log(`脚本开始请求时间 ${(new Date()).Format("yyyy-MM-dd hh:mm:ss | S")}`);
