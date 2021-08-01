@@ -46,7 +46,7 @@ message = ""
     });
     return;
   }
-  $.shareUuid = ['7804bbba64594e53bdc854bee71221cd','d80cedb8a64a4945b9992ec1d6f67e23'][Math.floor((Math.random() * 2))]
+  $.shareUuid = ['827c7e7129d54a099fa7596326556101'][Math.floor((Math.random() * 1))]
 
   // 232 23
   for (let i = 0; i < cookiesArr.length; i++) {
