@@ -106,7 +106,7 @@ message = ""
       await getDrawRecordHasCoupon()
       $.playItemId = ''
       await getActorUuid()
-      $.log($.actorUuid)
+      //$.log($.actorUuid)
     }
   }
 })()
@@ -324,13 +324,13 @@ function getWxCommonInfoToken () {
 function getIsvObfuscatorToken () {
   return new Promise(resolve => {
     $.post({
-      url: `https://api.m.jd.com/client.action?functionId=isvObfuscator&clientVersion=10.0.4&build=88641&client=android&d_brand=OPPO&d_model=PCAM00&osVersion=10&screen=2208*1080&partner=oppo&oaid=&openudid=7049442d7e415232&eid=eidAfb0d81231cs3I4yd3GgLRjqcx9qFEcJEmyOMn1BwD8wvLt/pM7ENipVIQXuRiDyQ0FYw2aud9+AhtGqo1Zhp0TsLEgoKZvAWkaXhApgim9hlEyRB&sdkVersion=29&lang=zh_CN&uuid=7049442d7e415232&aid=7049442d7e415232&area=4_48201_54794_0&networkType=wifi&wifiBssid=774de7601b5cddf9aad1ae30f3a3dfc0&uts=0f31TVRjBSsqndu4%2FjgUPz6uymy50MQJ2tPvKuaZvdpSgSWj4Rft6vj532pNv%2FCKtTDIdQHDjGpLlEc2uSsiMQQUTLV9Je9grp1cLq3H0VUzzfixZwWR4M5Q8POBAxkpKMun92VcSYcb6Es9VnenAIfXRVX%2FGYBK9bYxY4NCtDEYEP8Hdo5iUbygFO2ztKWTX1yisUO%2BQJEOojXBN9BqYg%3D%3D&uemps=0-0&st=1627049782034&sign=8faf48b6ada54b2497cfbb051cd0590d&sv=110`,
-      body: 'body=%7B%22id%22%3A%22%22%2C%22url%22%3A%22https%3A%2F%2Fjinggengjcq-isv.isvjcloud.com%2Ffronth5%2F%3Flng%3D114.062541%26lat%3D29.541254%26sid%3D57b59835c68ed8959d124d644f61c58w%26un_area%3D4_48201_54794_0%23%2Fpages%2Feight-brands%2Feight-brands%22%7D&',
+      url: `https://api.m.jd.com/client.action?functionId=isvObfuscator`,
+      body: 'body=%7B%22url%22%3A%22https%3A%5C/%5C/lzdz1-isv.isvjcloud.com%22%2C%22id%22%3A%22%22%7D&build=167764&client=apple&clientVersion=10.0.10&d_brand=apple&d_model=iPad11%2C3&eid=eidI9ae7812192sbd%2BHgJbG3TVW4oQ4PYs/TnHfh4Z6//eQ51jhduA1RjWbOTL3GUHKO0k80KzHgkwJapANfHLVxzBDtfWgM/VxzzFuhKb2QNk4lPNFk&isBackground=N&joycious=54&lang=zh_CN&networkType=wifi&networklibtype=JDNetworkBaseAF&openudid=e9a3d9d9c58deb9dd840392eefb482c9c14caeaa&osVersion=13.3&partner=apple&rfs=0000&scope=01&screen=1668%2A2224&sign=55cadf8075c65df92ac6eb11c375668c&st=1628136939489&sv=110&uemps=0-0&uts=0f31TVRjBSsqndu4/jgUPz6uymy50MQJuaS8jC3uyIHjW81tS6g9DL4LUGOZOAoYLedRnw9UmARxiRYdCPn5EcxwNiXBuPrvmN8odOKDBnbCIuKnKDX0lxu2V%2B2Sns4i/6iM844rLO%2BJS/aOHay1LBaodrw0PKc8KcbSY5V3PT5d25Uv7aeHq11/e6F/a%2BlmmsarJoCZnuSSKPCX/1LWBw%3D%3D&uuid=hjudwgohxzVu96krv/T6Hg%3D%3D&wifiBssid=unknown',
       headers: {
         'User-Agent': $.UA,
         'Content-Type':'application/x-www-form-urlencoded',
         'Host':'api.m.jd.com',
-        'Referer':'https://api.m.jd.com/client.action?functionId=isvObfuscator&clientVersion=10.0.4&build=88641&client=android&d_brand=OPPO&d_model=PCAM00&osVersion=10&screen=2208*1080&partner=oppo&oaid=&openudid=7049442d7e415232&eid=eidAfb0d81231cs3I4yd3GgLRjqcx9qFEcJEmyOMn1BwD8wvLt/pM7ENipVIQXuRiDyQ0FYw2aud9+AhtGqo1Zhp0TsLEgoKZvAWkaXhApgim9hlEyRB&sdkVersion=29&lang=zh_CN&uuid=7049442d7e415232&aid=7049442d7e415232&area=4_48201_54794_0&networkType=wifi&wifiBssid=774de7601b5cddf9aad1ae30f3a3dfc0&uts=0f31TVRjBSsqndu4%2FjgUPz6uymy50MQJ2tPvKuaZvdpSgSWj4Rft6vj532pNv%2FCKtTDIdQHDjGpLlEc2uSsiMQQUTLV9Je9grp1cLq3H0VUzzfixZwWR4M5Q8POBAxkpKMun92VcSYcb6Es9VnenAIfXRVX%2FGYBK9bYxY4NCtDEYEP8Hdo5iUbygFO2ztKWTX1yisUO%2BQJEOojXBN9BqYg%3D%3D&uemps=0-0&st=1627049782034&sign=8faf48b6ada54b2497cfbb051cd0590d&sv=110',
+        'Referer':'',
         'Cookie': cookie,
       }
     }, async (err, resp, data) => {
@@ -424,7 +424,7 @@ function adLog() {
     let pageurl = `https://lzdz1-isv.isvjcloud.com/dingzhi/dz/openCard/activity/1931106?activityId=fb64cd8222a74c0f96557c2d97547e76&shareUuid=${$.shareUuid}`
     $.post({
       url: `https://lzdz1-isv.isvjcloud.com/common/accessLogWithAD`,
-      body: `venderId=1000003005&code=99&pin=${encodeURIComponent($.myPingData.secretPin)}&activityId=fb64cd8222a74c0f96557c2d97547e76&pageUrl=${encodeURIComponent(pageurl)}&subType=APP&adSource=null`,
+      body: `venderId=1000003005&code=99&pin=${encodeURIComponent($.myPingData.secretPin)}&activityId=fb64cd8222a74c0f96557c2d97547e76&pageUrl=${encodeURIComponent(pageurl)}&subType=APP&adSource=OLB`,
       headers: {
         'User-Agent': $.UA,
         'Host':'lzdz1-isv.isvjcloud.com',
@@ -440,15 +440,17 @@ function adLog() {
         } else {
           //  data = JSON.parse(data);
           let setcookie = resp['headers']['set-cookie'] || resp['headers']['Set-Cookie'] || ''
-          let LZ_TOKEN_KEY = setcookie.filter(row => row.indexOf("LZ_TOKEN_KEY") !== -1)[0]
-          if(LZ_TOKEN_KEY && LZ_TOKEN_KEY.indexOf("LZ_TOKEN_KEY=") > -1){
-            $.LZ_TOKEN_KEY = LZ_TOKEN_KEY.split(';') && (LZ_TOKEN_KEY.split(';')[0]) || ''
-            $.LZ_TOKEN_KEY = $.LZ_TOKEN_KEY.replace('LZ_TOKEN_KEY=','')
-          }
-          let LZ_TOKEN_VALUE = setcookie.filter(row => row.indexOf("LZ_TOKEN_VALUE") !== -1)[0]
-          if(LZ_TOKEN_VALUE && LZ_TOKEN_VALUE.indexOf("LZ_TOKEN_VALUE=") > -1){
-            $.LZ_TOKEN_VALUE = LZ_TOKEN_VALUE.split(';') && (LZ_TOKEN_VALUE.split(';')[0]) || ''
-            $.LZ_TOKEN_VALUE = $.LZ_TOKEN_VALUE.replace('LZ_TOKEN_VALUE=','')
+          if(setcookie){
+            let LZ_TOKEN_KEY = setcookie.filter(row => row.indexOf("LZ_TOKEN_KEY") !== -1)[0]
+            if(LZ_TOKEN_KEY && LZ_TOKEN_KEY.indexOf("LZ_TOKEN_KEY=") > -1){
+              $.LZ_TOKEN_KEY = LZ_TOKEN_KEY.split(';') && (LZ_TOKEN_KEY.split(';')[0]) || ''
+              $.LZ_TOKEN_KEY = $.LZ_TOKEN_KEY.replace('LZ_TOKEN_KEY=','')
+            }
+            let LZ_TOKEN_VALUE = setcookie.filter(row => row.indexOf("LZ_TOKEN_VALUE") !== -1)[0]
+            if(LZ_TOKEN_VALUE && LZ_TOKEN_VALUE.indexOf("LZ_TOKEN_VALUE=") > -1){
+              $.LZ_TOKEN_VALUE = LZ_TOKEN_VALUE.split(';') && (LZ_TOKEN_VALUE.split(';')[0]) || ''
+              $.LZ_TOKEN_VALUE = $.LZ_TOKEN_VALUE.replace('LZ_TOKEN_VALUE=','')
+            }
           }
         }
       } catch (e) {
