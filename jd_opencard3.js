@@ -44,7 +44,7 @@ message = ""
     });
     return;
   }
-  $.shareUuid = ['60a2e4f4f86f4184a07a5de9ba9a21ae'][Math.floor((Math.random() * 1))]
+  $.shareUuid = ['60a2e4f4f86f4184a07a5de9ba9a21ae']
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
@@ -106,6 +106,7 @@ message = ""
       await getDrawRecordHasCoupon()
       $.playItemId = ''
       await getActorUuid()
+      $.log($.actorUuid)
     }
   }
 })()

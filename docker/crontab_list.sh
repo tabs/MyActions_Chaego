@@ -56,10 +56,12 @@
 5 0,18,22 * * * node /scripts/jd_olympic_opencard1.js >> /scripts/logs/jd_olympic_opencard1.log 2>&1
 #jd_olympic_opencard2
 20 0,18,22 * * * node /scripts/jd_olympic_opencard2.js >> /scripts/logs/jd_olympic_opencard2.log 2>&1
-#jd_olympic_opencard3
-30 0,9,18,22 * * * node /scripts/jd_olympic_opencard3.js >> /scripts/logs/jd_olympic_opencard3.log 2>&1
+#jd_opencard3
+30 0,9,18,22 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
 #jd_opencard4
 10 0,9,18,22 * * * node /scripts/jd_opencard4.js >> /scripts/logs/jd_opencard4.log 2>&1
+#特物
+30 11,17 * * * node /scripts/jd_superBrand.js >> /scripts/logs/jd_superBrand.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
