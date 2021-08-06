@@ -60,7 +60,7 @@ message = ""
   }
 
   guaopencard_addSku4 = false
-  $.shareUuid = ['89332da6ecaf44eeb735574a2c985dc6','84106793801a4178bb47fdb1ea73e1f8'][Math.floor((Math.random() * 2))]
+  $.shareUuid = ['e04808b9e1bc48daade0606a27527ac3','89332da6ecaf44eeb735574a2c985dc6','84106793801a4178bb47fdb1ea73e1f8'][Math.floor((Math.random() * 3))]
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
