@@ -58,8 +58,6 @@
 10 0,9,18,22 * * * node /scripts/jd_opencard2.js >> /scripts/logs/jd_opencard2.log 2>&1
 #jd_opencard3
 15 0,9,18,22 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
-#jd_opencard4
-20 0,9,18,22 * * * node /scripts/jd_opencard4.js >> /scripts/logs/jd_opencard4.log 2>&1
 #jd_opencard5
 25 0,9,18,22 * * * node /scripts/jd_opencard5.js >> /scripts/logs/jd_opencard5.log 2>&1
 #jd_qixi
