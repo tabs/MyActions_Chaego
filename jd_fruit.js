@@ -70,6 +70,7 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       subTitle = '';
       option = {};
       await shareCodesFormat();
+      $.retry = 0;
       await jdFruit();
     }
   }
@@ -122,9 +123,12 @@ async function jdFruit() {
       await predictionFruit();//预测水果成熟时间
     } else {
       console.log(`初始化农场数据异常, 请登录京东 app查看农场0元水果功能是否正常,农场初始化数据: ${JSON.stringify($.farmInfo)}`);
-      console.log(`等待10秒后重试`);
-      await $.wait(10000);
-      await jdFruit();
+      if($.retry < 3){
+        $.retry++
+        console.log(`等待10秒后重试,第:${$.retry}次`);
+        await $.wait(10000);
+        await jdFruit();
+      }
     }
   } catch (e) {
     console.log(`任务执行异常，请检查执行日志 ‼️‼️`);
@@ -621,73 +625,73 @@ async function getExtraAward() {
   }
 }
 //助力好友
-async function masterHelpShare() {
-  console.log('开始助力好友')
-  let salveHelpAddWater = 0;
-  let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
-  let helpSuccessPeoples = '';//成功助力好友
-  console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
+//async function masterHelpShare() {
+  //console.log('开始助力好友')
+  //let salveHelpAddWater = 0;
+  //let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
+  //let helpSuccessPeoples = '';//成功助力好友
+  //console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
 
-  for (let code of newShareCodes) {
-    console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${code}`);
-    if (!code) continue;
-    if (code === $.farmInfo.farmUserPro.shareCode) {
-      console.log('不能为自己助力哦，跳过自己的shareCode\n')
-      continue
-    }
-    await masterHelp(code);
-    if ($.helpResult.code === '0') {
-      if ($.helpResult.helpResult.code === '0') {
+  //for (let code of newShareCodes) {
+    //console.log(`开始助力京东账号${$.index} - ${$.nickName}的好友: ${code}`);
+   // if (!code) continue;
+  //  if (code === $.farmInfo.farmUserPro.shareCode) {
+     // console.log('不能为自己助力哦，跳过自己的shareCode\n')
+     // continue
+   // }
+    //await masterHelp(code);
+   // if ($.helpResult.code === '0') {
+      //if ($.helpResult.helpResult.code === '0') {
         //助力成功
-        salveHelpAddWater += $.helpResult.helpResult.salveHelpAddWater;
-        console.log(`【助力好友结果】: 已成功给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力`);
-        console.log(`给好友【${$.helpResult.helpResult.masterUserInfo.nickName}】助力获得${$.helpResult.helpResult.salveHelpAddWater}g水滴`)
-        helpSuccessPeoples += ($.helpResult.helpResult.masterUserInfo.nickName || '匿名用户') + ',';
-      } else if ($.helpResult.helpResult.code === '8') {
-        console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
-      } else if ($.helpResult.helpResult.code === '9') {
-        console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
-      } else if ($.helpResult.helpResult.code === '10') {
-        console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满五人助力`);
-      } else {
-        console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
-      }
-      console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
-      remainTimes = $.helpResult.helpResult.remainTimes;
-      if ($.helpResult.helpResult.remainTimes === 0) {
-        console.log(`您当前助力次数已耗尽，跳出助力`);
-        break
-      }
-    } else {
-      console.log(`助力失败::${JSON.stringify($.helpResult)}`);
-    }
-  }
-  if ($.isLoon() || $.isQuanX() || $.isSurge()) {
-    let helpSuccessPeoplesKey = timeFormat() + $.farmInfo.farmUserPro.shareCode;
-    if (!$.getdata(helpSuccessPeoplesKey)) {
+        //salveHelpAddWater += $.helpResult.helpResult.salveHelpAddWater;
+       // console.log(`【助力好友结果】: 已成功给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力`);
+        //console.log(`给好友【${$.helpResult.helpResult.masterUserInfo.nickName}】助力获得${$.helpResult.helpResult.salveHelpAddWater}g水滴`)
+        //helpSuccessPeoples += ($.helpResult.helpResult.masterUserInfo.nickName || '匿名用户') + ',';
+      //} else if ($.helpResult.helpResult.code === '8') {
+       // console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
+     // } else if ($.helpResult.helpResult.code === '9') {
+       // console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
+     // } else if ($.helpResult.helpResult.code === '10') {
+//console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满五人助力`);
+     // } else {
+       // console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
+      //}
+     // console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
+      //remainTimes = $.helpResult.helpResult.remainTimes;
+      //if ($.helpResult.helpResult.remainTimes === 0) {
+       // console.log(`您当前助力次数已耗尽，跳出助力`);
+       // break
+      //}
+    //} else {
+     // console.log(`助力失败::${JSON.stringify($.helpResult)}`);
+   // }
+ // }
+  //if ($.isLoon() || $.isQuanX() || $.isSurge()) {
+   // let helpSuccessPeoplesKey = timeFormat() + $.farmInfo.farmUserPro.shareCode;
+   // if (!$.getdata(helpSuccessPeoplesKey)) {
       //把前一天的清除
-      $.setdata('', timeFormat(Date.now() - 24 * 60 * 60 * 1000) + $.farmInfo.farmUserPro.shareCode);
-      $.setdata('', helpSuccessPeoplesKey);
-    }
-    if (helpSuccessPeoples) {
-      if ($.getdata(helpSuccessPeoplesKey)) {
-        $.setdata($.getdata(helpSuccessPeoplesKey) + ',' + helpSuccessPeoples, helpSuccessPeoplesKey);
-      } else {
-        $.setdata(helpSuccessPeoples, helpSuccessPeoplesKey);
-      }
-    }
-    helpSuccessPeoples = $.getdata(helpSuccessPeoplesKey);
+      //$.setdata('', timeFormat(Date.now() - 24 * 60 * 60 * 1000) + $.farmInfo.farmUserPro.shareCode);
+      //$.setdata('', helpSuccessPeoplesKey);
+    //}
+   // if (helpSuccessPeoples) {
+      //if ($.getdata(helpSuccessPeoplesKey)) {
+       // $.setdata($.getdata(helpSuccessPeoplesKey) + ',' + helpSuccessPeoples, helpSuccessPeoplesKey);
+     // } else {
+       // $.setdata(helpSuccessPeoples, helpSuccessPeoplesKey);
+     // }
+    //}
+    //helpSuccessPeoples = $.getdata(helpSuccessPeoplesKey);
+ // }
+ // if (helpSuccessPeoples && helpSuccessPeoples.length > 0) {
+    //message += `【您助力的好友👬】${helpSuccessPeoples.substr(0, helpSuccessPeoples.length - 1)}\n`;
   }
-  if (helpSuccessPeoples && helpSuccessPeoples.length > 0) {
-    message += `【您助力的好友👬】${helpSuccessPeoples.substr(0, helpSuccessPeoples.length - 1)}\n`;
-  }
-  if (salveHelpAddWater > 0) {
+ // if (salveHelpAddWater > 0) {
     // message += `【助力好友👬】获得${salveHelpAddWater}g💧\n`;
-    console.log(`【助力好友👬】获得${salveHelpAddWater}g💧\n`);
-  }
-  message += `【今日剩余助力👬】${remainTimes}次\n`;
-  console.log('助力好友结束，即将开始领取额外水滴奖励\n');
-}
+    //console.log(`【助力好友👬】获得${salveHelpAddWater}g💧\n`);
+ // }
+ //message += `【今日剩余助力👬】${remainTimes}次\n`;
+  //console.log('助力好友结束，即将开始领取额外水滴奖励\n');
+//}
 //水滴雨
 async function executeWaterRains() {
   let executeWaterRain = !$.farmTask.waterRainInit.f;
