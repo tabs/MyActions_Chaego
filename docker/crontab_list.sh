@@ -60,6 +60,8 @@
 15 0,12,22 * * * node /scripts/jd_opencard7.js >> /scripts/logs/jd_opencard7.log 2>&1
 #jd_opencard8
 5 0,12,22 * * * node /scripts/jd_opencard8.js >> /scripts/logs/jd_opencard8.log 2>&1
+#jd_opencard9
+5 0,8,12,22 * * * node /scripts/jd_opencard9.js >> /scripts/logs/jd_opencard9.log 2>&1
 #特物
 30 8,9 * * * node /scripts/jd_productZ4Brand.js >> /scripts/logs/jd_productZ4Brand.log 2>&1
 #女装盲盒
