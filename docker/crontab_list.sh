@@ -54,8 +54,6 @@
 20 1 * * * node /scripts/jx_sign.js >> /scripts/logs/jx_sign.log 2>&1
 #jd_xiaolong
 15 0,9,18,22 * * * node /scripts/jd_xiaolong.js >> /scripts/logs/jd_xiaolong.log 2>&1
-#jd_opencard5
-25 0,9,18,22 * * * node /scripts/jd_opencard5.js >> /scripts/logs/jd_opencard5.log 2>&1
 #jd_opencard7
 15 0,12,22 * * * node /scripts/jd_opencard7.js >> /scripts/logs/jd_opencard7.log 2>&1
 #jd_opencard8
