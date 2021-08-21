@@ -7,7 +7,9 @@
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 互助码shareCode请先手动运行脚本查看打印可看到
 一天只能帮助3个人。多出的助力码无效
+
 // zero205：已添加自己账号内部互助，有剩余助力次数再帮我助力
+
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
@@ -635,53 +637,54 @@ async function getExtraAward() {
 //助力好友
 //async function masterHelpShare() {
   //console.log('开始助力好友')
- // await initForFarm();
+  //await initForFarm();
   //let salveHelpAddWater = 0;
   //let remainTimes = 3;//今日剩余助力次数,默认3次（京东农场每人每天3次助力机会）。
   //let helpSuccessPeoples = '';//成功助力好友
- // console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
+  // console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
  // if ($.isNode() && !process.env.FRUITSHARECODES) {
+    //console.log(`未填写助力码变量，开始账号内互助，再帮【zero205】助力`);
    // newShareCode = [...(jdFruitShareArr || []), ...(newShareCodes || [])]
   //} else {
     //newShareCode = newShareCodes
   //}
-  //for (let code of newShareCode) {
+ // for (let code of newShareCode) {
     //console.log(`${$.UserName}开始助力: ${code}`);
     //if (!code) continue;
-   // if (code === $.farmInfo.farmUserPro.shareCode) {
+    //if (code === $.farmInfo.farmUserPro.shareCode) {
      // console.log('不能为自己助力哦，跳过自己的shareCode\n')
      // continue
-    //}
-  //  await masterHelp(code);
-    //if ($.helpResult.code === '0') {
+   // }
+   // await masterHelp(code);
+   // if ($.helpResult.code === '0') {
       //if ($.helpResult.helpResult.code === '0') {
         //助力成功
        // salveHelpAddWater += $.helpResult.helpResult.salveHelpAddWater;
         //console.log(`【助力好友结果】: 已成功给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力`);
         //console.log(`给好友【${$.helpResult.helpResult.masterUserInfo.nickName}】助力获得${$.helpResult.helpResult.salveHelpAddWater}g水滴`)
        // helpSuccessPeoples += ($.helpResult.helpResult.masterUserInfo.nickName || '匿名用户') + ',';
-      //} else if ($.helpResult.helpResult.code === '8') {
-        //console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
-     // } else if ($.helpResult.helpResult.code === '9') {
+     // } else if ($.helpResult.helpResult.code === '8') {
+       // console.log(`【助力好友结果】: 助力【${$.helpResult.helpResult.masterUserInfo.nickName}】失败，您今天助力次数已耗尽`);
+      //} else if ($.helpResult.helpResult.code === '9') {
        // console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
      // } else if ($.helpResult.helpResult.code === '10') {
        // console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满五人助力`);
       //} else {
        // console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
       //}
-     // console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
-     // remainTimes = $.helpResult.helpResult.remainTimes;
+      //console.log(`【今日助力次数还剩】${$.helpResult.helpResult.remainTimes}次\n`);
+      //remainTimes = $.helpResult.helpResult.remainTimes;
       //if ($.helpResult.helpResult.remainTimes === 0) {
-        //console.log(`您当前助力次数已耗尽，跳出助力`);
-        //break
-      //}
-    //} else {
+       // console.log(`您当前助力次数已耗尽，跳出助力`);
+       // break
+     // }
+   // } else {
       //console.log(`助力失败::${JSON.stringify($.helpResult)}`);
     //}
- // }
+  //}
   //if ($.isLoon() || $.isQuanX() || $.isSurge()) {
-    //let helpSuccessPeoplesKey = timeFormat() + $.farmInfo.farmUserPro.shareCode;
-    //if (!$.getdata(helpSuccessPeoplesKey)) {
+   // let helpSuccessPeoplesKey = timeFormat() + $.farmInfo.farmUserPro.shareCode;
+   // if (!$.getdata(helpSuccessPeoplesKey)) {
       //把前一天的清除
       //$.setdata('', timeFormat(Date.now() - 24 * 60 * 60 * 1000) + $.farmInfo.farmUserPro.shareCode);
      // $.setdata('', helpSuccessPeoplesKey);
@@ -689,18 +692,18 @@ async function getExtraAward() {
     //if (helpSuccessPeoples) {
       //if ($.getdata(helpSuccessPeoplesKey)) {
        // $.setdata($.getdata(helpSuccessPeoplesKey) + ',' + helpSuccessPeoples, helpSuccessPeoplesKey);
-      //} else {
-       // $.setdata(helpSuccessPeoples, helpSuccessPeoplesKey);
-      //}
-    //}
-   // helpSuccessPeoples = $.getdata(helpSuccessPeoplesKey);
-  //}
+     // } else {
+      //  $.setdata(helpSuccessPeoples, helpSuccessPeoplesKey);
+     // }
+  //  }
+  // helpSuccessPeoples = $.getdata(helpSuccessPeoplesKey);
+ // }
   //if (helpSuccessPeoples && helpSuccessPeoples.length > 0) {
    // message += `【您助力的好友👬】${helpSuccessPeoples.substr(0, helpSuccessPeoples.length - 1)}\n`;
  // }
   //if (salveHelpAddWater > 0) {
     // message += `【助力好友👬】获得${salveHelpAddWater}g💧\n`;
-    //console.log(`【助力好友👬】获得${salveHelpAddWater}g💧\n`);
+   // console.log(`【助力好友👬】获得${salveHelpAddWater}g💧\n`);
   //}
  // message += `【今日剩余助力👬】${remainTimes}次\n`;
  // console.log('助力好友结束，即将开始领取额外水滴奖励\n');
@@ -1324,7 +1327,7 @@ function shareCodesFormat() {
     if ($.shareCodesArr[$.index - 1]) {
       newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
+      // console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
       const tempIndex = $.index > shareCodes.length ? (shareCodes.length - 1) : ($.index - 1);
       newShareCodes = shareCodes[tempIndex].split('@');
     }
@@ -1333,7 +1336,7 @@ function shareCodesFormat() {
     //   // newShareCodes = newShareCodes.concat(readShareCodeRes.data || []);
     //   newShareCodes = [...new Set([...newShareCodes, ...(readShareCodeRes.data || [])])];
     // }
-    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
+    // console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify(newShareCodes)}`)
     resolve();
   })
 }
