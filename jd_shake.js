@@ -1,5 +1,7 @@
 
-
+/*
+cron "0 1,17 * * *" jd_productZ4Brand.js, tag:摇京豆
+*/
 const $ = new Env('摇京豆');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
