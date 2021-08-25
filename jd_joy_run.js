@@ -39,9 +39,9 @@ http-request ^https:\/\/draw\.jdfcloud\.com(\/mirror)?\/\/api\/user\/user\/detai
 */
 // @grant    require
 const $ = new Env('宠汪汪赛跑');
-const zooFaker = require('./JDJRValidator_Pure');
-$.get = zooFaker.injectToRequest2($.get.bind($));
-$.post = zooFaker.injectToRequest2($.post.bind($));
+const injectToRequest2 = require('./JDJRValidator_Pure').injectToRequest2;
+$.get = injectToRequest2($.get.bind($));
+$.post = injectToRequest2($.post.bind($));
 //宠汪汪赛跑所需token，默认读取作者服务器的
 //需自行抓包，宠汪汪小程序获取token，点击`发现`或`我的`，寻找`^https:\/\/draw\.jdfcloud\.com(\/mirror)?\/\/api\/user\/user\/detail\?openId=`获取token
 let jdJoyRunToken = '';
@@ -116,6 +116,7 @@ async function main() {
   }
   const readTokenRes = ''
   // const readTokenRes = await readToken();
+  $.http.get({url: 'https://purge.jsdelivr.net/gh/zero205/updateTeam@main/shareCodes/lkyl.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
   await updateToken()
   if (readTokenRes && readTokenRes.code === 200) {
     $.LKYLToken = readTokenRes.data[0] || ($.isNode() ? (process.env.JOY_RUN_TOKEN ? process.env.JOY_RUN_TOKEN : jdJoyRunToken) : ($.getdata('jdJoyRunToken') || jdJoyRunToken));
@@ -124,8 +125,8 @@ async function main() {
   }
   console.log(`打印token：${$.LKYLToken ? $.LKYLToken : '暂无token'}\n`)
   if (!$.LKYLToken) {
-    $.msg($.name, '【提示】请先获取来客有礼宠汪汪token', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token\n");
-    console.log(`尝试获取【zero205】仓库来客有礼token，一天只更新一次，有效期几个小时，请留意TG群内消息\n`)
+    // $.msg($.name, '【提示】请先获取来客有礼宠汪汪token', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token\n");
+    console.log(`未检测到来客有礼token，尝试使用【zero205】仓库token\n一天只更新一次，有效期几个小时，请留意TG群内消息\n`)
     $.LKYLToken = $.lkyl
     // return;
   }
@@ -137,7 +138,7 @@ async function main() {
       // $.validate = await zooFaker.injectToRequest()
       if ($.isNode()) {
 //         if (process.env.JOY_RUN_HELP_MYSELF) {
-          console.log(`\n赛跑会先给账号内部助力,如您当前账户有剩下助力机会则为lx0301作者助力\n`)
+          console.log(`\n赛跑会先给账号内部助力,如您当前账户有剩下助力机会则为zero205助力\n`)
           let my_run_pins = [];
           Object.values(jdCookieNode).filter(item => item.match(/pt_pin=([^; ]+)(?=;?)/)).map(item => my_run_pins.push(decodeURIComponent(item.match(/pt_pin=([^; ]+)(?=;?)/)[1])))
           run_pins = [...new Set(my_run_pins), [...getRandomArrayElements([...run_pins[0].split(',')], [...run_pins[0].split(',')].length)]];
@@ -347,7 +348,7 @@ async function invite(invite_pins) {
           if (LKYL_DATA.errorCode === 'L0001' && !LKYL_DATA.success) {
             console.log('来客有礼宠汪汪token失效');
             $.setdata('', 'jdJoyRunToken');
-            $.msg($.name, '【提示】来客有礼token失效，请重新获取', "iOS用户微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token")
+            $.msg($.name, '【提示】来客有礼token失效，请重新抓包获取', "微信搜索'来客有礼'小程序\n点击底部的'发现'Tab\n即可获取Token")
             $.LKYLLogin = false;
             break
           } else {
@@ -616,7 +617,7 @@ isRequest ? getToken() : main();
 
 
 function taroRequest(e) {
-  const a = $.isNode() ? require('crypto-js') : CryptoJS;
+  const a = require('crypto-js');
   const i = "98c14c997fde50cc18bdefecfd48ceb7"
   const o = a.enc.Utf8.parse(i)
   const r = a.enc.Utf8.parse("ea653f4f3c5eda12");
