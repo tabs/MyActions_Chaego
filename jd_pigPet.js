@@ -1,3 +1,4 @@
+// @grant    require
 /*
 Last Modified time: 2021-5-19 12:27:16
 活动入口：京东金融养猪猪
