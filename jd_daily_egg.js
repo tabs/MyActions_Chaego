@@ -1,6 +1,30 @@
 /*
-cron "18 * * * *" jd_daily_egg.js, tag:天天提鹅
-*/
+ * @Author: LXK9301 https://github.com/LXK9301
+ * @Date: 2020-11-10 14:10:27 
+ * @Last Modified by: LXK9301
+ * @Last Modified time: 2020-11-20 14:11:01
+ */
+/*
+TODO
+活动入口：京东金融-天天提鹅
+定时收鹅蛋,兑换金币
+已支持IOS双京东账号,Node.js支持N个京东账号
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+============Quantumultx===============
+[task_local]
+#天天提鹅
+10 0,6-23 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_daily_egg.js, tag=天天提鹅, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdte.png, enabled=true
+
+================Loon==============
+[Script]
+cron "10 0,6-23 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_daily_egg.js,tag=天天提鹅
+
+===============Surge=================
+天天提鹅 = type=cron,cronexp="10 0,6-23 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_daily_egg.js
+
+============小火箭=========
+天天提鹅 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_daily_egg.js, cronexpr="10 0,6-23 * * *", timeout=3600, enable=true
+ */
 const $ = new Env('天天提鹅');
 let cookiesArr = [], cookie = '';
 const JD_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
@@ -13,13 +37,7 @@ if ($.isNode()) {
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 } else {
-  let cookiesData = $.getdata('CookiesJD') || "[]";
-  cookiesData = jsonParse(cookiesData);
-  cookiesArr = cookiesData.map(item => item.cookie);
-  cookiesArr.reverse();
-  cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
-  cookiesArr.reverse();
-  cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 !(async () => {
   if (!cookiesArr[0]) {
@@ -44,6 +62,7 @@ if ($.isNode()) {
         continue
       }
       await jdDailyEgg();
+      await $.wait(2000)
     }
   }
 })()
@@ -55,15 +74,17 @@ if ($.isNode()) {
     })
 async function jdDailyEgg() {
   await toDailyHome()
+  await $.wait(1000)
   await toWithdraw()
+  await $.wait(2000)
   await toGoldExchange();
 }
 function toGoldExchange() {
   return new Promise(async resolve => {
     const body = {
-      "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
     }
     $.post(taskUrl('toGoldExchange', body), (err, resp, data) => {
       try {
@@ -76,10 +97,10 @@ function toGoldExchange() {
             data = JSON.parse(data);
             if (data.resultCode === 0) {
               if (data.resultData.code === '0000') {
-                console.log(`兑换金币:${data.resultData.data.cnumber}`);
-                console.log(`当前总金币:${data.resultData.data.goldTotal}`);
+                console.log(`兑换积分:${data.resultData.data.cnumber}`);
+                console.log(`当前总积分:${data.resultData.data.goldTotal}`);
               } else if (data.resultData.code !== '0000') {
-                console.log(`兑换金币失败:${data.resultData.msg}`)
+                console.log(`兑换积分失败:${data.resultData.msg}`)
               }
             }
           } else {
@@ -99,7 +120,9 @@ function toWithdraw() {
     const body = {
       "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
+      "shareUuid": ""
     }
     $.post(taskUrl('toWithdraw', body), (err, resp, data) => {
       try {
@@ -135,7 +158,9 @@ function toDailyHome() {
     const body = {
       "timeSign": 0,
       "environment": "jrApp",
-      "riskDeviceInfo": "{}"
+      "riskDeviceInfo": "{}",
+      "channelLv": "zqdk",
+      "shareUuid": ""
     }
     $.post(taskUrl('toDailyHome', body), (err, resp, data) => {
       try {
@@ -186,7 +211,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }
