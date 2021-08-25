@@ -13,17 +13,17 @@ Last Modified time: 2021-07-27 01:42:50
 ==============Quantumult X==============
 [task_local]
 #宠汪汪积分兑换奖品
-58 7,15,23 * * * jd_joy_reward.js, tag=宠汪汪积分兑换奖品, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
+59 7,15,23 * * * jd_joy_reward.js, tag=宠汪汪积分兑换奖品, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
 
 ==============Loon==============
 [Script]
-cron "58 7,15,23 * * *" script-path=jd_joy_reward.js,tag=宠汪汪积分兑换奖品
+cron "59 7,15,23 * * *" script-path=jd_joy_reward.js,tag=宠汪汪积分兑换奖品
 
 ================Surge===============
-宠汪汪积分兑换奖品 = type=cron,cronexp="58 7,15,23 * * *",wake-system=1,timeout=3600,script-path=jd_joy_reward.js
+宠汪汪积分兑换奖品 = type=cron,cronexp="59 7,15,23 * * *",wake-system=1,timeout=3600,script-path=jd_joy_reward.js
 
 ===============小火箭==========
-宠汪汪积分兑换奖品 = type=cron,script-path=jd_joy_reward.js, cronexpr="58 7,15,23 * * *", timeout=3600, enable=true
+宠汪汪积分兑换奖品 = type=cron,script-path=jd_joy_reward.js, cronexpr="59 7,15,23 * * *", timeout=3600, enable=true
  */
 // @grant    require
 // prettier-ignore
@@ -438,7 +438,7 @@ function safeGet(data) {
   }
 }
 function taroRequest(e) {
-  const a = $.isNode() ? require('crypto-js') : CryptoJS;
+  const a = require('crypto-js');
   const i = "98c14c997fde50cc18bdefecfd48ceb7"
   const o = a.enc.Utf8.parse(i)
   const r = a.enc.Utf8.parse("ea653f4f3c5eda12");
