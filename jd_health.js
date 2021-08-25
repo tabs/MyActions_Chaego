@@ -7,32 +7,43 @@
 ===================quantumultx================
 [task_local]
 #东东健康社区
-13 1,6,22 * * * jd_health.js, tag=东东健康社区, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+13 0,6,22 * * * jd_health.js, tag=东东健康社区, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 =====================Loon================
 [Script]
-cron "13 1,6,22 * * *" script-path=jd_health.js, tag=东东健康社区
+cron "13 0,6,22 * * *" script-path=jd_health.js, tag=东东健康社区
 
 ====================Surge================
-东东健康社区 = type=cron,cronexp="13 1,6,22 * * *",wake-system=1,timeout=3600,script-path=jd_health.js
+东东健康社区 = type=cron,cronexp="13 0,6,22 * * *",wake-system=1,timeout=3600,script-path=jd_health.js
 
 ============小火箭=========
-东东健康社区 = type=cron,script-path=jd_health.js, cronexpr="13 1,6,22 * * *", timeout=3600, enable=true
+东东健康社区 = type=cron,script-path=jd_health.js, cronexpr="13 0,6,22 * * *", timeout=3600, enable=true
  */
 const $ = new Env("东东健康社区");
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require('./sendNotify') : "";
 let cookiesArr = [], cookie = "", allMessage = "", message;
 const inviteCodes = [
-''
+  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
+  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
+  `T0225KkcRh9P9FbRKUygl_UJcgCjVfnoaW5kRrbA@T0159KUiH11Mq1bSKBoCjVfnoaW5kRrbA@T018v_hzQhwZ8FbUIRib1ACjVfnoaW5kRrbA`,
 ]
 let reward = process.env.JD_HEALTH_REWARD_NAME ? process.env.JD_HEALTH_REWARD_NAME : ''
 const randomCount = $.isNode() ? 20 : 5;
+function oc(fn, defaultVal) {//optioanl chaining
+  try {
+    return fn()
+  } catch (e) {
+    return undefined
+  }
+}
+function nc(val1, val2) {//nullish coalescing
+  return val1 ? val1 : val2
+}
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item]);
   });
-  console.log(`如果出现提示 ?.data. 错误，请升级nodejs版本(进入容器后，apk add nodejs-current)`)
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === "false") console.log = () => {};
 } else {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
@@ -99,7 +110,7 @@ async function helpFriends() {
     if (!code) continue
     console.log(`去助力好友${code}`)
     let res = await doTask(code, 6)
-    if([108,-1001].includes(res?.data?.bizCode)){
+    if([108,-1001].includes(oc(() => res.data.bizCode))){
       console.log(`助力次数已满，跳出`)
       break
     }
@@ -123,7 +134,7 @@ function getTaskDetail(taskId = '') {
           if (safeGet(data)) {
             data = $.toObj(data)
             if (taskId === -1) {
-              let tmp = parseInt(parseFloat(data?.data?.result?.userScore ?? '0'))
+              let tmp = parseInt(parseFloat(nc(oc(() => data.data.result.userScore) , '0')))
               if (!$.earn) {
                 $.score = tmp
                 $.earn = 1
@@ -132,35 +143,35 @@ function getTaskDetail(taskId = '') {
                 $.score = tmp
               }
             } else if (taskId === 6) {
-              if (data?.data?.result?.taskVos) {
-                console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken}\n`);
-                // console.log('好友助力码：' + data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken)
+              if (oc(() => data.data.result.taskVos)) {
+                console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken)}\n`);
+                // console.log('好友助力码：' + oc(() => data.data.result.taskVos[0].assistTaskDetailVo.taskToken))
               }
             } else if (taskId === 22) {
-              console.log(`${data?.data?.result?.taskVos[0]?.taskName}任务，完成次数：${data?.data?.result?.taskVos[0]?.times}/${data?.data?.result?.taskVos[0]?.maxTimes}`)
-              if (data?.data?.result?.taskVos[0]?.times === data?.data?.result?.taskVos[0]?.maxTimes) return
-              await doTask(data?.data?.result?.taskVos[0].shoppingActivityVos[0]?.taskToken, 22, 1)//领取任务
-              await $.wait(1000 * (data?.data?.result?.taskVos[0]?.waitDuration || 3));
-              await doTask(data?.data?.result?.taskVos[0].shoppingActivityVos[0]?.taskToken, 22, 0);//完成任务
+              console.log(`${oc(() => data.data.result.taskVos[0].taskName)}任务，完成次数：${oc(() => data.data.result.taskVos[0].times)}/${oc(() => data.data.result.taskVos[0].maxTimes)}`)
+              if (oc(() => data.data.result.taskVos[0].times) === oc(() => data.data.result.taskVos[0].maxTimes)) return
+              await doTask(oc(() => data.data.result.taskVos[0].shoppingActivityVos[0].taskToken), 22, 1)//领取任务
+              await $.wait(1000 * (oc(() => data.data.result.taskVos[0].waitDuration) || 3));
+              await doTask(oc(() => data.data.result.taskVos[0].shoppingActivityVos[0].taskToken), 22, 0);//完成任务
             } else {
-              for (let vo of data?.data?.result?.taskVos.filter(vo => vo.taskType !== 19) ?? []) {
+              for (let vo of nc(oc(() => data.data.result.taskVos.filter(vo => vo.taskType !== 19 && vo.taskType !== 25)) , [])) {
                 console.log(`${vo.taskName}任务，完成次数：${vo.times}/${vo.maxTimes}`)
                 for (let i = vo.times; i < vo.maxTimes; i++) {
                   console.log(`去完成${vo.taskName}任务`)
                   if (vo.taskType === 13) {
-                    await doTask(vo.simpleRecordInfoVo?.taskToken, vo?.taskId)
+                    await doTask(oc(() => vo.simpleRecordInfoVo.taskToken), oc(() => vo.taskId))
                   } else if (vo.taskType === 8) {
-                    await doTask(vo.productInfoVos[i]?.taskToken, vo?.taskId, 1)
+                    await doTask(oc(() => vo.productInfoVos[i].taskToken), oc(() => vo.taskId), 1)
                     await $.wait(1000 * 10)
-                    await doTask(vo.productInfoVos[i]?.taskToken, vo?.taskId, 0)
+                    await doTask(oc(() => vo.productInfoVos[i].taskToken), oc(() => vo.taskId), 0)
                   } else if (vo.taskType === 9) {
-                    await doTask(vo.shoppingActivityVos[0]?.taskToken, vo?.taskId, 1)
+                    await doTask(oc(() => vo.shoppingActivityVos[0].taskToken), oc(() => vo.taskId), 1)
                     await $.wait(1000 * 10)
-                    await doTask(vo.shoppingActivityVos[0]?.taskToken, vo?.taskId, 0)
+                    await doTask(oc(() => vo.shoppingActivityVos[0].taskToken), oc(() => vo.taskId), 0)
                   } else if (vo.taskType === 10) {
-                    await doTask(vo.threeMealInfoVos[0]?.taskToken, vo?.taskId)
+                    await doTask(oc(() => vo.threeMealInfoVos[0].taskToken), oc(() => vo.taskId))
                   } else if (vo.taskType === 26 || vo.taskType === 3) {
-                    await doTask(vo.shoppingActivityVos[0]?.taskToken, vo?.taskId)
+                    await doTask(oc(() => vo.shoppingActivityVos[0].taskToken), oc(() => vo.taskId))
                   } else if (vo.taskType === 1) {
                     for (let key of Object.keys(vo.followShopVo)) {
                       let taskFollow = vo.followShopVo[key]
@@ -191,7 +202,7 @@ async function getCommodities() {
       try {
         if (safeGet(data)) {
           data = $.toObj(data)
-          let beans = data.data.result.jBeans.filter(x => x.status !== 1)
+          let beans = data.data.result.jBeans.filter(x => x.status !== 0 && x.status !== 1)
           if (beans.length !== 0) {
             for (let key of Object.keys(beans)) {
               let vo = beans[key]
@@ -226,6 +237,8 @@ function exchange(commodityType, commodityId) {
             if ($.isNode()) {
               allMessage += `【京东账号${$.index}】 ${$.UserName}\n兑换${data.data.result.jingBeanNum}京豆成功🎉${$.index !== cookiesArr.length ? '\n\n' : ''}`
             }
+          } else {
+            console.log(data.data.bizMsg)
           }
         }
       } catch (e) {
@@ -245,14 +258,14 @@ function doTask(taskToken, taskId, actionType = 0) {
         try {
           if (safeGet(data)) {
             data = $.toObj(data)
-            if ([0, 1].includes(data?.data?.bizCode ?? -1)) {
+            if ([0, 1].includes(nc(oc(() => data.data.bizCode) , -1))) {
               $.canDo = true
-              if (data?.data?.result?.score)
-                console.log(`任务完成成功，获得：${data?.data?.result?.score ?? '未知'}能量`)
+              if (oc(() => data.data.result.score))
+                console.log(`任务完成成功，获得：${nc(oc(() => data.data.result.score) , '未知')}能量`)
               else
-                console.log(`任务领取结果：${data?.data?.bizMsg ?? JSON.stringify(data)}`)
+                console.log(`任务领取结果：${nc(oc(() => data.data.bizMsg) , JSON.stringify(data))}`)
             } else {
-              console.log(`任务完成失败：${data?.data?.bizMsg ?? JSON.stringify(data)}`)
+              console.log(`任务完成失败：${nc(oc(() => data.data.bizMsg) , JSON.stringify(data))}`)
             }
           }
         } catch (e) {
@@ -271,13 +284,13 @@ function collectScore() {
         try {
           if (safeGet(data)) {
             data = $.toObj(data)
-            if (data?.data?.bizCode === 0) {
-              if (data?.data?.result?.produceScore)
-                console.log(`任务完成成功，获得：${data?.data?.result?.produceScore ?? '未知'}能量`)
+            if (oc(() => data.data.bizCode) === 0) {
+              if (oc(() => data.data.result.produceScore))
+                console.log(`任务完成成功，获得：${nc(oc(() => data.data.result.produceScore) , '未知')}能量`)
               else
-                console.log(`任务领取结果：${data?.data?.bizMsg ?? JSON.stringify(data)}`)
+                console.log(`任务领取结果：${nc(oc(() => data.data.bizMsg) , JSON.stringify(data))}`)
             } else {
-              console.log(`任务完成失败：${data?.data?.bizMsg ?? JSON.stringify(data)}`)
+              console.log(`任务完成失败：${nc(oc(() => data.data.bizMsg) , JSON.stringify(data))}`)
             }
           }
         } catch (e) {
@@ -317,33 +330,33 @@ function safeGet(data) {
   }
 }
 
-function readShareCode() {
-  console.log(`开始`)
-  return new Promise(async resolve => {
-    $.get({
-      url: `https://wuzhi03.coding.net/p/dj/d/RandomShareCode/git/raw/main/JD_Health.json`,
-      'timeout': 10000
-    }, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} health/read API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
-            data = JSON.parse(data);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(10000);
-    resolve()
-  })
-}
+// function readShareCode() {
+//   console.log(`开始`)
+//   return new Promise(async resolve => {
+//     $.get({
+//       url: `http://share.turinglabs.net/api/v3/health/query/${randomCount}/`,
+//       'timeout': 10000
+//     }, (err, resp, data) => {
+//       try {
+//         if (err) {
+//           console.log(`${JSON.stringify(err)}`)
+//           console.log(`${$.name} health/read API请求失败，请检查网路重试`)
+//         } else {
+//           if (data) {
+//             console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
+//             data = JSON.parse(data);
+//           }
+//         }
+//       } catch (e) {
+//         $.logErr(e, resp)
+//       } finally {
+//         resolve(data);
+//       }
+//     })
+//     await $.wait(10000);
+//     resolve()
+//   })
+// }
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
@@ -356,10 +369,10 @@ function shareCodesFormat() {
       const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+    // const readShareCodeRes = await readShareCode();
+    // if (readShareCodeRes && readShareCodeRes.code === 200) {
+    //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    // }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
