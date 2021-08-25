@@ -1,3 +1,4 @@
+// @grant    require
 /*
 领券中心签到
 
@@ -10,17 +11,17 @@
 ============Quantumultx===============
 [task_local]
 #领券中心签到
-15 10 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js, tag=领券中心签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+15 0 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js, tag=领券中心签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "15 10 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js,tag=领券中心签到
+cron "15 0 * * *" script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js,tag=领券中心签到
 
 ===============Surge=================
-领券中心签到 = type=cron,cronexp="15 10 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js
+领券中心签到 = type=cron,cronexp="15 0 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js
 
 ============小火箭=========
-领券中心签到 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js, cronexpr="15 10 * * *", timeout=3600, enable=true
+领券中心签到 = type=cron,script-path=https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_ccSign.js, cronexpr="15 0 * * *", timeout=3600, enable=true
  */
 const $ = new Env('领券中心签到');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -96,9 +97,13 @@ async function getCouponConfig() {
             if (data.result.couponConfig.signNecklaceDomain) {
               console.log(`活动已升级，暂时无法解决，跳过执行`)
             } else {
-              let functionId = `ccSignInNew`
-              let body = `%7B%22childActivityUrl%22%3A%22openapp.jdmobile%3A%2F%2Fvirtual%3Fparams%3D%7B%5C%22category%5C%22%3A%5C%22jump%5C%22%2C%5C%22des%5C%22%3A%5C%22couponCenter%5C%22%7D%22%2C%22monitorRefer%22%3A%22appClient%22%2C%22monitorSource%22%3A%22cc_sign_android_index_config%22%2C%22pageClickKey%22%3A%22Coupons_GetCenter%22%7D`
-              await ccSignInNew(functionId, body)
+              if (data.result.couponConfig.signNewDomain.roundData.ynSign === '1') {
+                console.log(`签到失败：今日已签到~`)
+              } else {
+                let functionId = `ccSignInNew`
+                let body = `%7B%22childActivityUrl%22%3A%22openapp.jdmobile%3A%2F%2Fvirtual%3Fparams%3D%7B%5C%22category%5C%22%3A%5C%22jump%5C%22%2C%5C%22des%5C%22%3A%5C%22couponCenter%5C%22%7D%22%2C%22monitorRefer%22%3A%22appClient%22%2C%22monitorSource%22%3A%22cc_sign_android_index_config%22%2C%22pageClickKey%22%3A%22Coupons_GetCenter%22%7D`
+                await ccSignInNew(functionId, body)
+              }
             }
           }
         }
@@ -125,8 +130,6 @@ async function ccSignInNew(functionId, body) {
             data = JSON.parse(data)
             if (data.busiCode === '0') {
               console.log(`签到成功：获得 ${data.result.signResult.signData.amount} 红包`)
-            } else if (data.busiCode === '1002') {
-              console.log(`今日已签到`)
             } else {
               console.log(`签到失败：${data.message}`)
             }
