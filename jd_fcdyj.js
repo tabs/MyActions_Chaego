@@ -77,7 +77,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
                 console.log(`\n检测到您已填助力码${$.rid}，开始助力\n`)
                 await help($.rid, $.inviter, 1)
                 if (!$.canRun) {
-                    break;
+                    continue;
                 }
                 await $.wait(1000)
                 await help($.rid, $.inviter, 2)
@@ -86,8 +86,8 @@ const JD_API_HOST = `https://api.m.jd.com`;
     }
     if (new Date().getHours() >= 10) {
         await getAuthorShareCode()
-        for (let i = 0; i < cookiesArr.length; i++) {
-            if (cookiesArr[i]) {
+        if ($.authorCode) {
+            for (let i = 0; i < cookiesArr.length; i++) {
                 cookie = cookiesArr[i];
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
                 $.canRun = true
