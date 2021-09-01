@@ -48,6 +48,8 @@
 0-59/30 * * * * node /scripts/jd_moneyTree_help.js >> /scripts/logs/jd_moneyTree_help.log 2>&1
 # MMdou
 21 9 * * * node /scripts/jd_MMdou.js >> /scripts/logs/jd_MMdou.log 2>&1
+# jd_opencard11
+21 1,8,15 * * * node /scripts/jd_opencard11.js >> /scripts/logs/jd_opencard11.log 2>&1
 #京喜领88元红包
 30 1,6,12,15,18 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #京喜首页签到
