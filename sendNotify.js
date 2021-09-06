@@ -107,7 +107,15 @@
  if (process.env.QMSG_KEY) {
    QMSG_KEY = process.env.QMSG_KEY;
  }
- 
+
+ if (process.env.QMSG_WAY) {
+  QMSG_WAY = process.env.QMSG_WAY;
+}
+
+if (process.env.QMSG_QQ) {
+  QMSG_QQ = process.env.QMSG_QQ;
+}
+
  if (process.env.QQ_SKEY) {
    QQ_SKEY = process.env.QQ_SKEY;
  }
