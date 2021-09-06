@@ -72,7 +72,6 @@ let args_xh = {
 !(async() => {
     console.log(`\n本脚本默认不运行，也不建议运行\n如需运行请自行添加环境变量：JD_TRY，值填：true\n`)
     await $.wait(1000)
-    if(process.env.JD_TRY && process.env.JD_TRY === 'true'){
         await requireConfig()
         if(!$.cookiesArr[0]){
             $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {
@@ -121,10 +120,6 @@ let args_xh = {
             }
         }
         // await $.notify.sendNotify(`${$.name}`, notifyMsg);
-    } else {
-        console.log(`\n您未设置运行【京东试用】脚本，结束运行！\n`)
-        await $.wait(1000)
-    }
 })().catch((e) => {
     console.log(`❗️ ${$.name} 运行错误！\n${e}`)
 }).finally(() => $.done())
