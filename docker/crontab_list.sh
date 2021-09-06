@@ -50,6 +50,8 @@
 21 9 * * * node /scripts/jd_MMdou.js >> /scripts/logs/jd_MMdou.log 2>&1
 # jd_opencard12
 21 1,8,15 * * * node /scripts/jd_opencard12.js >> /scripts/logs/jd_opencard12.log 2>&1
+# jd_opencard13
+11 0,8,15 * * * node /scripts/jd_opencard13.js >> /scripts/logs/jd_opencard13.log 2>&1
 #京喜领88元红包
 30 1,6,12,15,18 * * * node /scripts/jd_jxlhb.js >> /scripts/logs/jd_jxlhb.log 2>&1
 #京喜首页签到
