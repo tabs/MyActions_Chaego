@@ -32,8 +32,6 @@
 47 10 * * * node /scripts/jd_djjl.js >> /scripts/logs/jd_djjl.log 2>&1
 #众筹许愿池
 20 12 * * * node /scripts/jd_wishingPool.js >> /scripts/logs/jd_wishingPool.log 2>&1
-#汪汪乐园
-30 2,20 * * * node /scripts/jd_joy_park.js >> /scripts/logs/jd_joy_park.log 2>&1
 #新签到
 10 0,18 * * * node /scripts/jd_NewSign.js >> /scripts/logs/jd_NewSign.log 2>&1
 #送豆得豆
@@ -62,7 +60,14 @@
 15 0,12 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
 # 电脑配件抢京豆（一次性脚本）
 1 0 * * * node /scripts/jd_task1.js >> /scripts/logs/jd_task1.log 2>&1
-
+# jd_opencard16
+30 0,9,18 * * * node /scripts/jd_opencard16.js >> /scripts/logs/jd_opencard16.log 2>&1
+# jd_opencard17
+30 1,10,19 * * * node /scripts/jd_opencard17.js >> /scripts/logs/jd_opencard17.log 2>&1
+# jd_opencard18
+30 2,8,17 * * * node /scripts/jd_opencard18.js >> /scripts/logs/jd_opencard18.log 2>&1
+# 内容鉴赏官
+15 2,5 * * * node /scripts/jd_connoisseur.js >> /scripts/logs/jd_connoisseur.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
