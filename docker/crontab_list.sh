@@ -58,8 +58,6 @@
 15 10 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 零食街
 15 0,12 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
-# 电脑配件抢京豆（一次性脚本）
-1 0 * * * node /scripts/jd_task1.js >> /scripts/logs/jd_task1.log 2>&1
 # jd_opencard16
 30 0,9,18 * * * node /scripts/jd_opencard16.js >> /scripts/logs/jd_opencard16.log 2>&1
 # jd_opencard17
