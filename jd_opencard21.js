@@ -39,8 +39,8 @@ cron "44 2 13-23 9 *" script-path=https://raw.githubusercontent.com/smiek2221/sc
 9.13~9.23 福满中秋 = type=cron,script-path=https://raw.githubusercontent.com/smiek2221/scripts/master/gua_opencard31.js, cronexpr="44 2 13-23 9 *", timeout=3600, enable=true
 */
 let guaopencard_addSku = "false"
-let guaopencard = "false"
-let guaopencard_draw = "0"
+let guaopencard = "true"
+let guaopencard_draw = "5"
 
 const $ = new Env('9.13~9.23 福满中秋');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
