@@ -74,6 +74,8 @@
 1 0,11,21 * * * node /scripts/jd_jump.js >> /scripts/logs/jd_jump.log 2>&1
 # 明星小店
 12 9,19 10-17 9 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
+# 送豆得豆
+24 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
