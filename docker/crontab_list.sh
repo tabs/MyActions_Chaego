@@ -50,6 +50,10 @@
 15 10 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 零食街
 15 0,12 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
+# jd_opencard23
+0 1,5,16 * * * node /scripts/jd_opencard23.js >> /scripts/logs/jd_opencard23.log 2>&1
+# jd_opencard24
+15 6,14,23 * * * node /scripts/jd_opencard24.js >> /scripts/logs/jd_opencard24.log 2>&1
 # jd_opencard22
 30 5,13,22 * * * node /scripts/jd_opencard22.js >> /scripts/logs/jd_opencard22.log 2>&1
 # jd_opencard21
@@ -76,6 +80,8 @@
 12 9,19 10-17 9 * node /scripts/jd_star_shop.js >> /scripts/logs/jd_star_shop.log 2>&1
 # 送豆得豆
 24 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
+# 企有此礼
+30 0,8 * * * node /scripts/jd_qycl.js >> /scripts/logs/jd_qycl.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
