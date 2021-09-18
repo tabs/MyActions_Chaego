@@ -50,8 +50,8 @@
 15 10 * * * node /scripts/jd_ccSign.js >> /scripts/logs/jd_ccSign.log 2>&1
 # 零食街
 15 0,12 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
-# jd_opencard23
-0 1,5,16 * * * node /scripts/jd_opencard23.js >> /scripts/logs/jd_opencard23.log 2>&1
+# jd_opencard16
+0 1,5,16 * * * node /scripts/jd_opencard16.js >> /scripts/logs/jd_opencard16.log 2>&1
 # jd_opencard24
 15 6,14,23 * * * node /scripts/jd_opencard24.js >> /scripts/logs/jd_opencard24.log 2>&1
 # jd_opencard22
@@ -62,6 +62,8 @@
 30 0,9,18 * * * node /scripts/jd_opencard20.js >> /scripts/logs/jd_opencard20.log 2>&1
 # jd_opencard17
 30 1,10,19 * * * node /scripts/jd_opencard17.js >> /scripts/logs/jd_opencard17.log 2>&1
+# jd_opencard18
+30 2,8,17 * * * node /scripts/jd_opencard18.js >> /scripts/logs/jd_opencard18.log 2>&1
 # jd_opencard19
 30 3,11,20 * * * node /scripts/jd_opencard19.js >> /scripts/logs/jd_opencard19.log 2>&1
 # 内容鉴赏官
@@ -76,6 +78,8 @@
 24 0,12 * * * node /scripts/jd_sendBeans.js >> /scripts/logs/jd_sendBeans.log 2>&1
 #东东世界
 15 3,16 * * * node /scripts/jd_ddworld.js >> /scripts/logs/jd_ddworld.log 2>&1
+#京东手机狂欢城
+0 0-18/6 * * * node /scripts/jd_carnivalcity.js >> /scripts/logs/jd_carnivalcity.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
