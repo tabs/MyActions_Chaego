@@ -44,7 +44,7 @@ let allMessage = '';
     return;
   }
   let res = await getAuthorShareCode('https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/connoisseur.json')
-  for (let i = 0; i < cookiesArr.length; i++) {
+    for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
@@ -162,7 +162,7 @@ async function getActiveInfo(url = 'https://prodev.m.jd.com/mall/active/2y1S9xVY
 }
 async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', itemId = '') {
   let body = {"type":type,"projectId":projectId,"assignmentId":assignmentId,"doneHide":false}
-  if (ofn === $.helpType) body['itemId'] = itemId; body['helpType'] = helpType
+  if (ofn === $.helpType) body['itemId'] = itemId, body['helpType'] = helpType
   return new Promise(async resolve => {
     $.post(taskUrl('interactive_info', body), async (err, resp, data) => {
       try {
@@ -172,7 +172,7 @@ async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', i
         } else {
           if (data) {
             data = JSON.parse(data)
-            if (ofn === "3" || ofn === "10" || ofn === "14" || ofn === "16" || ofn === "18" || ofn === "20") {
+            if ((ofn === "3" || ofn === "10" || ofn === "14" || ofn === "16" || ofn === "18" || ofn === "20") && !body['helpType']) {
               if (ofn !== "3") console.log(`去做【${data.data[0].title}】`)
               if (data.code === "0" && data.data) {
                 if (data.data[0].status !== "2") {
@@ -184,7 +184,7 @@ async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', i
               } else {
                 console.log(data.message)
               }
-            } else if (ofn === "8") {
+            } else if (ofn === "8" && !body['helpType']) {
               if (data.code === "0" && data.data) {
                 if (data.data[0].status !== "2") {
                   await sign_interactive_done(type, data.data[0].projectId, data.data[0].assignmentId)
@@ -196,7 +196,7 @@ async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', i
               } else {
                 console.log(data.message)
               }
-            } else if (ofn === "12") {
+            } else if (ofn === "12" && !body['helpType']) {
               if (data.code === "0" && data.data) {
                 console.log(`去做【${data.data[0].title}】`)
                 if (data.data[0].status !== "2") {
@@ -209,7 +209,7 @@ async function getTaskInfo(type, projectId, assignmentId, ofn, helpType = '1', i
               } else {
                 console.log(data.message)
               }
-            } else if (ofn === $.helpType) {
+            } else if (ofn === $.helpType && body['helpType']) {
               if (helpType === '1') {
                 if (data.code === "0" && data.data) {
                   if (data.data[0].status !== "2") {
@@ -412,10 +412,10 @@ async function getshareCode() {
             data = JSON.parse(data)
             for (let key of Object.keys(data.floorList)) {
               let vo = data.floorList[key]
-              if (vo.ofn && ((vo.ofn === "16" || vo.ofn === "18" || vo.ofn === "20") && vo.template === 'customcode')) {
+              if (vo.ofn && ((vo.ofn === "16" || vo.ofn === "18" || vo.ofn === "20") && vo.template === 'customcode' && !vo.materialParams)) {
                 await getTaskInfo("1", vo.boardParams.projectCode, vo.boardParams.taskCode, vo.ofn)
                 await $.wait(2000)
-              } else if (vo.ofn && ((vo.ofn === "22" || vo.ofn === "24") && vo.template === 'customcode')) {
+              } else if (vo.ofn && ((vo.ofn === "20" || vo.ofn === "22" || vo.ofn === "24") && vo.template === 'customcode' && vo.materialParams)) {
                 $.projectCode = vo.boardParams.projectCode
                 $.taskCode = vo.boardParams.taskCode
                 $.helpType = vo.ofn
