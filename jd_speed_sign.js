@@ -82,13 +82,13 @@ async function jdGlobal() {
     await wheelsHome()
     await apTaskList()
     await wheelsHome()
-    //await signInit()
-    //await sign()
+    await signInit()
+    await sign()
     $.score = 0
     $.total = 0
     await taskList()
     await queryJoy()
-    //await signInit()
+    await signInit()
     await cash()
     await showMsg()
   } catch (e) {
