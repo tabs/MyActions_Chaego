@@ -52,8 +52,6 @@
 15 0,12 * * * node /scripts/jd_lsj.js >> /scripts/logs/jd_lsj.log 2>&1
 # jd_opencard16
 0 1,5,16 * * * node /scripts/jd_opencard16.js >> /scripts/logs/jd_opencard16.log 2>&1
-# jd_opencard21
-30 4,12,21 * * * node /scripts/jd_opencard21.js >> /scripts/logs/jd_opencard21.log 2>&1
 # jd_opencard20
 30 0,9,18 * * * node /scripts/jd_opencard20.js >> /scripts/logs/jd_opencard20.log 2>&1
 # jd_opencard17
