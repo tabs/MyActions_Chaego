@@ -60,6 +60,8 @@
 30 1,10,19 * * * node /scripts/jd_opencard17.js >> /scripts/logs/jd_opencard17.log 2>&1
 # jd_opencard18
 30 2,8,17 * * * node /scripts/jd_opencard18.js >> /scripts/logs/jd_opencard18.log 2>&1
+# jd_opencard19
+30 3,9,16 * * * node /scripts/jd_opencard19.js >> /scripts/logs/jd_opencard19.log 2>&1
 # 内容鉴赏官
 15 2,5 * * * node /scripts/jd_connoisseur.js >> /scripts/logs/jd_connoisseur.log 2>&1
 # 京喜财富岛合成月饼
