@@ -40,7 +40,7 @@
  //BARK app推送铃声,铃声列表去APP查看复制填写
  let BARK_SOUND = '';
 
- 
+ let BARK_GROUP=""
  
  // =======================================telegram机器人通知设置区域===========================================
  //此处填你telegram bot 的Token，telegram机器人通知推送必填项.例如：1077xxx4424:AAFjv0FcqxxxxxxgEMGfi22B4yh15R5uw
