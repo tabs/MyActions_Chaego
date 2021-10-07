@@ -100,7 +100,6 @@ if ($.isNode()) {
         }
       }
     }
-    console.log(JSON.stringify($.codeList));
     for (let j = 0; j < thisCookiesArr.length; j++) {
       $.cookie = thisCookiesArr[j];
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
