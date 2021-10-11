@@ -72,7 +72,8 @@
 30 3,10,22 * * * node /scripts/jd_opencard1.js >> /scripts/logs/jd_opencard1.log 2>&1
 #jd_opencard2
 0 1,9,23 * * * node /scripts/jd_opencard2.js >> /scripts/logs/jd_opencard2.log 2>&1
-
+#jd_opencard3
+45 0,12,21 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
