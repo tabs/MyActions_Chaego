@@ -28,8 +28,6 @@
 20 12 * * * node /scripts/jd_wishingPool.js >> /scripts/logs/jd_wishingPool.log 2>&1
 #新签到
 10 0,18 * * * node /scripts/jd_NewSign.js >> /scripts/logs/jd_NewSign.log 2>&1
-# 翻翻乐(7.15-8.15)
-20 * * * * node /scripts/jd_flipcards.js >> /scripts/logs/jd_flipcards.log 2>&1
 # 京喜财富岛提现
 0 0,12 * * * node /scripts/jd_cfdtx.js >> /scripts/logs/jd_cfdtx.log 2>&1
 # 摇钱树助力
@@ -68,14 +66,18 @@
 11 9,18 * * * node /scripts/jd_jmsign.js >> /scripts/logs/jd_jmsign.log 2>&1
 #财富岛热气球接待
 30 * * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
-#jd_opencard1
-30 3,10,22 * * * node /scripts/jd_opencard1.js >> /scripts/logs/jd_opencard1.log 2>&1
+#jd_opencard4
+30 2,10,20 * * * node /scripts/jd_opencard4.js >> /scripts/logs/jd_opencard4.log 2>&1
 #jd_opencard2
 0 1,9,23 * * * node /scripts/jd_opencard2.js >> /scripts/logs/jd_opencard2.log 2>&1
 #jd_opencard3
 45 0,12,21 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
-jd_ddworld_exchange
-45 0 0,9 * * * node /scripts/jd_ddworld_exchange.js >> /scripts/logs/jd_ddworld_exchange.log 2>&1
+#jd_opencard5
+15 0,12,18 * * * node /scripts/jd_opencard5.js >> /scripts/logs/jd_opencard5.log 2>&1
+#jd_ddworld_exchange
+0 0,9 * * * node /scripts/jd_ddworld_exchangebean.js >> /scripts/logs/jd_ddworld_exchangebean.log 2>&1
+# 攒金币 赢大礼
+22 0,8 * * * node /scripts/jd_GoldcoinToGift.js >> /scripts/logs/jd_GoldcoinToGift.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
@@ -148,7 +150,7 @@ jd_ddworld_exchange
 # 京东抽奖机
 22 0,12,18 * * *  node /scripts/jd_lotteryMachine.js >> /scripts/logs/jd_lotteryMachine.log 2>&1
 # 宠汪汪
-45 */2,23 * * * node /scripts/jd_joy.js >> /scripts/logs/jd_joy.log 2>&1
+5 */2,9,23 * * * node /scripts/jd_joy.js >> /scripts/logs/jd_joy.log 2>&1
 # 宠汪汪积分兑换京豆
 59 7,15,23 * * * node /scripts/jd_joy_reward.js >> /scripts/logs/jd_joy_reward.log 2>&1
 # 宠汪汪喂食
@@ -156,7 +158,7 @@ jd_ddworld_exchange
 # 宠汪汪偷好友积分与喂食
 30 0-21/3 * * * node /scripts/jd_joy_steal.js >> /scripts/logs/jd_joy_steal.log 2>&1
 # 宠汪汪邀请助力
-10 13-20/1 * * * node /scripts/jd_joy_run.js >> /scripts/logs/jd_joy_run.log 2>&1
+10 9-20/1 * * * node /scripts/jd_joy_run.js >> /scripts/logs/jd_joy_run.log 2>&1
 # 京东摇一摇
 0 1,17 * * * node /scripts/jd_shake.js >> /scripts/logs/jd_shake.log 2>&1
 京东试用（默认注释，请配合取关脚本使用）
