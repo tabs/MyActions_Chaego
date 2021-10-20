@@ -74,6 +74,8 @@
 45 0,12,21 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
 #jd_opencard5
 15 0,12,18 * * * node /scripts/jd_opencard5.js >> /scripts/logs/jd_opencard5.log 2>&1
+#jd_opencard7
+15 1,13,22 * * * node /scripts/jd_opencard5.js >> /scripts/logs/jd_opencard5.log 2>&1
 #jd_ddworld_exchange
 0 0,9 * * * node /scripts/jd_ddworld_exchangebean.js >> /scripts/logs/jd_ddworld_exchangebean.log 2>&1
 # 攒金币 赢大礼
