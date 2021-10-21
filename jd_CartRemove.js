@@ -30,7 +30,6 @@ $.keywordsNum = 0;
     console.log('使用前请确保你认真看了注释')
     console.log('看完注释有问题就带着你的问题来找我')
     console.log('tg: https://t.me/X1a0He')
-    if($.cart){
         if(!cookiesArr[0]){
             $.msg('【京东账号一】移除购物车失败', '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {
                 "open-url": "https://bean.m.jd.com/bean/signIndex.action"
@@ -69,9 +68,6 @@ $.keywordsNum = 0;
                 } while(isRemoveAll && $.keywordsNum !== $.beforeRemove)
             }
         }
-    } else {
-        console.log("你设置了不删除购物车数据，要删除请设置环境变量 JD_CART 为 true")
-    }
 })().catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
 }).finally(() => {
