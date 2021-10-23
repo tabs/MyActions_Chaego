@@ -82,7 +82,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       if (!isLoginInfo[$.UserName]) continue
       if ($.canHelp && ($.newShareCodes && $.updatePkActivityIdRes.length)) {
-        console.log(`\n\n助力ZFeng1005`)
+        console.log(`\n\n助力作者`)
         for (let j = 0; j < $.updatePkActivityIdRes.length && $.canHelp; j++) {
           console.log(`\n${$.UserName} 去助力 ${$.updatePkActivityIdRes[j]}`);
           $.delcode = false;
