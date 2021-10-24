@@ -327,7 +327,7 @@ function shareCodesFormat() {
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
+    if (readShareCodeRes) {
       $.newShareCodes = [...new Set([...(readShareCodeRes || []), ...$.newShareCodes])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
