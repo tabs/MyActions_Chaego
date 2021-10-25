@@ -31,7 +31,6 @@ if ($.isNode()) {
     cookiesArr.push(jdCookieNode[item])
   })
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
-  if (JSON.stringify(process.env).indexOf('GITHUB') > -1) process.exit(0)
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
@@ -43,13 +42,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
     return;
   }
   $.temp = [];
-  $.updatePkActivityIdRes = await getAuthorShareCode('https://raw.githubusercontent.com/wuzhiupdate/updateTeam/master/jd_cityShareCodes.json')
-  if (!$.updatePkActivityIdRes) {
-    $.http.get({url: 'https://purge.jsdelivr.net/gh/wuzhiupdate/updateTeam@master/jd_cityShareCodes.json'}).then((resp) => {}).catch((e) => $.log('刷新CDN异常', e));
-    await $.wait(1000)
-    $.updatePkActivityIdRes = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/wuzhiupdate/updateTeam@master/jd_cityShareCodes.json')
-  }
-
+  $.updatePkActivityIdRes = await getAuthorShareCode('https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/phone.json')
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
