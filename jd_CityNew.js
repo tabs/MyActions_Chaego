@@ -294,7 +294,7 @@ function city_lotteryAward() {
 }
 function readShareCode() {
   return new Promise(async resolve => {
-    $.get({url: `https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/citynew.json`, 'timeout': 10000}, (err, resp, data) => {
+    $.get({url: `https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/jd_cityShareCodes.json`, 'timeout': 10000}, (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -327,8 +327,8 @@ function shareCodesFormat() {
       $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes ) {
-      $.newShareCodes = [...new Set([...(readShareCodeRes || []), ...$.newShareCodes])];
+    if (readShareCodeRes && readShareCodeRes.code === 200) {
+      $.newShareCodes = [...new Set([...(readShareCodeRes.data || []), ...$.newShareCodes])];
     }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
