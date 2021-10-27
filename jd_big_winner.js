@@ -1,12 +1,30 @@
 /*
-cron "20 * * * *" jd_flipcards.js, tag:省钱大赢家之翻翻乐
-*/
+省钱大赢家之翻翻乐
+一天可翻多次，但有上限
+运气好每次可得0.3元以上的微信现金(需京东账号绑定到微信)
+脚本兼容: QuantumultX, Surge,Loon, JSBox, Node.js
+=================================Quantumultx=========================
+[task_local]
+#省钱大赢家之翻翻乐
+20 * * * * jd_big_winner.js, tag=省钱大赢家之翻翻乐, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+
+=================================Loon===================================
+[Script]
+cron "20 * * * *" script-path=jd_big_winner.js,tag=省钱大赢家之翻翻乐
+
+===================================Surge================================
+省钱大赢家之翻翻乐 = type=cron,cronexp="20 * * * *",wake-system=1,timeout=3600,script-path=jd_big_winner.js
+
+====================================小火箭=============================
+省钱大赢家之翻翻乐 = type=cron,script-path=jd_big_winner.js, cronexpr="20 * * * *", timeout=3600, enable=true
+ */
 const $ = new Env('省钱大赢家之翻翻乐');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message = '', linkId = 'PFbUR7wtwUcQ860Sn8WRfw', fflLinkId = 'YhCkrVusBVa_O2K-7xE6hA';
+const money = $.isNode() ? (process.env.BIGWINNER_MONEY ? process.env.BIGWINNER_MONEY * 1 : 0.3) : ($.getdata("BIGWINNER_MONEY") ? $.getdata("BIGWINNER_MONEY") * 1 : 0.3)
 const JD_API_HOST = 'https://api.m.jd.com/api';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -40,7 +58,7 @@ const len = cookiesArr.length;
   }
   if (message) {
     $.msg($.name, '', message);
-    //if ($.isNode()) await notify.sendNotify($.name, message);
+    if ($.isNode()) await notify.sendNotify($.name, message);
   }
 })()
     .catch((e) => {
@@ -200,7 +218,7 @@ function openRedReward(functionId = 'gambleChangeReward', type) {
             if (data['code'] === 0) {
               $.rewardData = data.data;
               if (data.data.rewardState === 1) {
-                if (data.data.rewardValue >= 0.3) {
+                if (data.data.rewardValue >= money) {
                   //已翻倍到0.3元，可以提现了
                   $.canApCashWithDraw = true;
                   $.changeReward = false;
