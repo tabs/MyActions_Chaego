@@ -66,8 +66,6 @@
 30 * * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
 #jd_opencard4
 30 2,10,20 * * * node /scripts/jd_opencard4.js >> /scripts/logs/jd_opencard4.log 2>&1
-#jd_opencard3
-45 0,12,21 * * * node /scripts/jd_opencard3.js >> /scripts/logs/jd_opencard3.log 2>&1
 #jd_opencard8
 05 2,11,19 * * * node /scripts/jd_opencard8.js >> /scripts/logs/jd_opencard8.log 2>&1
 #jd_opencard9
