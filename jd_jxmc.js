@@ -38,32 +38,10 @@ let UA, token, UAInfo = {}
 $.appId = 10028;
 $.helpCkList = [];
 let cardinfo = {
-  "16": "小黄鸡",
-  "17": "辣子鸡",
-  "18": "猪肚鸡",
-  "19": "椰子鸡"
-}
-const petInfo = {
-  "4": {
-    name: "猪肚鸡",
-    price: 412 * 1e3,
-    weights: 2288.889 // 每个蛋的成本
-  },
-  "2": {
-    name: "椰子鸡",
-    price: 3355 * 1e2,
-    weights: 2795.833
-  },
-  "3": {
-    name: "辣子鸡",
-    price: 2975 * 1e2,
-    weights: 2975.0
-  },
-  "1": {
-    name: "小黄鸡",
-    price: 25 * 1e4,
-    weights: 3125.0
-  },
+  "16":"小黄鸡",
+  "17":"辣子鸡",
+  "18":"未知",
+  "19":"未知"
 }
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -199,12 +177,6 @@ async function pasture() {
           if (vo.currnum > 0) {
             msg += `${vo.currnum}张${cardinfo[vo.cardtype]}卡片 `
           }
-          $.cardtype = vo.cardtype
-          for (let i = vo.neednum; i <= vo.currnum; i += vo.neednum) {
-            console.log(`${cardinfo[vo.cardtype]}卡片已满${vo.neednum}张，去兑换...`)
-            await $.wait(5000)
-            await takeGetRequest("Combine")
-          }
         }
         console.log(`\n可抽奖次数：${$.GetCardInfo.times}${msg ? `,拥有卡片：${msg}` : ''}\n`)
         if ($.GetCardInfo.times !== 0) {
@@ -216,28 +188,8 @@ async function pasture() {
           console.log('')
         }
       }
-      console.log("查看宠物信息")
-      const petNum = ($.homeInfo?.petinfo || []).length
-      if (!petNum) {
-        console.log(`你的鸡都生完蛋跑掉啦！！`)
-        await buyNewPet(true)
-      }
-      for (let i = 0; i < petNum; i++) {
+      for (let i = 0; i < $.homeInfo.petinfo.length; i++) {
         $.onepetInfo = $.homeInfo.petinfo[i];
-        const { bornvalue, progress, strong, type, stage } = $.onepetInfo
-        switch (stage) {
-          case 1:
-            console.log(`这里有一只幼年${petInfo[type].name}，成长进度：${progress}%`)
-            break
-          case 2:
-            console.log(`这里有一只青年${petInfo[type].name}，生蛋进度：${bornvalue}/${strong}，成长进度：${progress}%`)
-            break
-          case 4:
-            console.log(`这里有一只壮年${petInfo[type].name}，离家出走进度（生蛋进度）：${bornvalue}/${strong}`)
-            break
-          default:
-            console.log(`这里有一只不知道什么状态的鸡：${JSON.stringify($.onepetInfo)}`)
-        }
         $.petidList.push($.onepetInfo.petid);
         if ($.onepetInfo.cangetborn === 1) {
           console.log(`开始收鸡蛋`);
@@ -372,29 +324,6 @@ async function pasture() {
     $.logErr(e)
   }
 }
-async function buyNewPet(isHungery = false) {
-  let weightsTemp = -1, nameTemp = ""
-  for (let key in petInfo) {
-    const onePet = petInfo[key]
-    const { name, price, weights } = onePet
-    if (price <= $.coins) {
-      if (weights > weightsTemp) {
-        weightsTemp = weights, nameTemp = name
-        $.petType = key
-      }
-    }
-  }
-  if (weightsTemp !== -1) {
-    await buy()
-    if (!isHungery) await buyNewPet()
-  } else {
-    console.log("你目前没有金币可以直接购买鸡")
-  }
-  async function buy() {
-    console.log("去买" + nameTemp)
-    await takeGetRequest("BuyNew")
-  }
-}
 
 async function doTask(j) {
   for (let i = 0; i < $.taskList.length; i++) {
@@ -446,7 +375,7 @@ async function takeGetRequest(type) {
   let myRequest = ``;
   switch (type) {
     case 'GetHomePageInfo':
-      url = `https://m.jingxi.com/jxmc/queryservice/GetHomePageInfo?channel=7&sceneid=1001&activeid=null&activekey=${$.activekey}&isgift=1&isquerypicksite=1&_stk=channel%2Csceneid&_ste=1`;
+      url = `https://m.jingxi.com/jxmc/queryservice/GetHomePageInfo?channel=7&sceneid=1001&activeid=null&activekey=null&isgift=1&isquerypicksite=1&_stk=channel%2Csceneid&_ste=1`;
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`GetHomePageInfo`, url);
       break;
@@ -527,32 +456,20 @@ async function takeGetRequest(type) {
       myRequest = getGetRequest(`GetSignReward`, url);
       break;
     case 'DoMainTask':
-      url = `https://m.jingxi.com/jxmc/operservice/DoMainTask?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=${$.activekey}&step=${$.step}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Cstep%2Ctimestamp&_ste=1`
+      url = `https://m.jingxi.com/jxmc/operservice/DoMainTask?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=null&step=${$.step}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Cstep%2Ctimestamp&_ste=1`
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`DoMainTask`, url);
       break;
     case 'GetCardInfo':
-      url = `https://m.jingxi.com/jxmc/queryservice/GetCardInfo?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=${$.activekey}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`
+      url = `https://m.jingxi.com/jxmc/queryservice/GetCardInfo?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=null&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`GetCardInfo`, url);
       break;
     case 'DrawCard':
-      url = `https://m.jingxi.com/jxmc/operservice/DrawCard?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=${$.activekey}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`
+      url = `https://m.jingxi.com/jxmc/operservice/DrawCard?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=null&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}&_stk=activeid%2Cactivekey%2Cchannel%2Cjxmc_jstoken%2Cphoneid%2Csceneid%2Ctimestamp&_ste=1`
       url += `&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
       myRequest = getGetRequest(`DrawCard`, url);
       break;
-      case 'Combine':
-        url = `https://m.jingxi.com/jxmc/operservice/Combine?channel=7&sceneid=1001&type=2&activeid=${$.activeid}&activekey=${$.activekey}&cardtype=${$.cardType}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}`;
-        url += `&_stk=${getStk(url)}`
-        url += `&_ste=1&h5st=${decrypt(t, '', '', url)}&_=${t + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
-        myRequest = getGetRequest(`Combine`, url);
-        break
-      case 'BuyNew':
-        url = `https://m.jingxi.com/jxmc/operservice/BuyNew?channel=7&sceneid=1001&activeid=${$.activeid}&activekey=${$.activekey}&type=${$.petType}&jxmc_jstoken=${token['farm_jstoken']}&timestamp=${token['timestamp']}&phoneid=${token['phoneid']}`;
-        url += `&_stk=${getStk(url)}`
-        url += `&_ste=1&h5st=${decrypt(Date.now(), '', '', url)}&_=${Date.now() + 2}&sceneval=2&g_login_type=1&callback=jsonpCBK${String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0))}&g_ty=ls`;
-        myRequest = getGetRequest(`BuyNew`, url);
-        break;
     default:
       console.log(`错误${type}`);
   }
@@ -576,10 +493,7 @@ async function takeGetRequest(type) {
     })
   })
 }
-function getStk(url) {
-  let arr = url.split('&').map(x => x.replace(/.*\?/, "").replace(/=.*/, ""))
-  return encodeURIComponent(arr.filter(x => x).sort().join(','))
-}
+
 function dealReturn(type, data) {
   switch (type) {
     case 'GetHomePageInfo':
@@ -588,8 +502,7 @@ function dealReturn(type, data) {
         $.homeInfo = data.data;
         $.activeid = $.homeInfo.activeid
         $.activekey = $.homeInfo.activekey || null
-        $.coins = $.homeInfo?.coins || 0;
-        if ($.homeInfo.giftcabbagevalue) {
+        if($.homeInfo.giftcabbagevalue){
           console.log(`登陆获得白菜：${$.homeInfo.giftcabbagevalue} 颗`);
         }
       } else {
@@ -729,24 +642,6 @@ function dealReturn(type, data) {
         }
       }
       break;
-      case 'Combine':
-        data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
-        if (data.ret === 0) {
-          console.log(`兑换成功，当前小鸡数量：${data.data.currnum}`)
-        } else {
-          console.log(`Combine：${JSON.stringify(data)}`)
-        }
-        break;
-      case 'BuyNew':
-        data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
-        if (data.ret === 0) {
-          const { costcoin, currnum, petid, type } = data.data
-          $.coins -= costcoin
-          console.log(`获得一只${petInfo[type].name}，宠物id：${petid}，当前拥有${currnum}只鸡`)
-        } else {
-          console.log(`BuyNew：${JSON.stringify(data)}`)
-        }
-        break;
     default:
       console.log(JSON.stringify(data));
   }
