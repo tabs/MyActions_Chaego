@@ -85,7 +85,7 @@
 # 超级盒子
 24 3,13 * * * node /scripts/jd_superbox.js >> /scripts/logs/jd_superbox.log 2>&1
 # 沸腾之夜
-33 18 * * * node /scripts/jd_hotNeight.js >> /scripts/logs/jd_hotNeight.log 2>&1
+20 1,9,16 * * * node /scripts/jd_fcwb.js >> /scripts/logs/jd_fcwb.log 2>&1
 ##############长期活动##############
 # 签到
 0 0,18 * * * cd /scripts && node jd_bean_sign.js >> /scripts/logs/jd_bean_sign.log 2>&1
