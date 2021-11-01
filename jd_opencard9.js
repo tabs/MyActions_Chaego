@@ -37,7 +37,7 @@ All变量适用
 */
 let guaopencard_addSku = "false"
 let guaopencard = "true"
-let guaopenwait = "0"
+let guaopenwait = "20"
 
 const $ = new Env('10.28~11.05 大牌强联合 好物提前购');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
