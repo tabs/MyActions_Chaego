@@ -64,8 +64,8 @@
 15 9,18 * * * node /scripts/jd_jmtask.js >> /scripts/logs/jd_jmtask.log 2>&1
 #财富岛热气球接待
 30 * * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
-#jd_opencard12
-30 5,13,22 * * * node /scripts/jd_opencard12.js >> /scripts/logs/jd_opencard12.log 2>&1
+#jd_opencard13
+30 5,13,22 * * * node /scripts/jd_opencard13.js >> /scripts/logs/jd_opencard13.log 2>&1
 #jd_opencard12
 30 4,12,21 * * * node /scripts/jd_opencard12.js >> /scripts/logs/jd_opencard12.log 2>&1
 #jd_opencard11
