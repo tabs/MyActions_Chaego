@@ -21,7 +21,7 @@ const $ = new Env('星店长');
 const { url } = require('inspector');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('./jdCookie2.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const JD_API_HOST = 'https://api.m.jd.com/';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [],
