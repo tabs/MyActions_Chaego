@@ -64,6 +64,10 @@
 15 9,18 * * * node /scripts/jd_jmtask.js >> /scripts/logs/jd_jmtask.log 2>&1
 #财富岛热气球接待
 30 * * * * node /scripts/jd_cfd_loop.js >> /scripts/logs/jd_cfd_loop.log 2>&1
+#jd_opencard16
+55 3,11,20 * * * node /scripts/jd_opencard16.js >> /scripts/logs/jd_opencard16.log 2>&1
+#jd_opencard15
+55 4,12,21 * * * node /scripts/jd_opencard15.js >> /scripts/logs/jd_opencard15.log 2>&1
 #jd_opencard14
 55 5,13,22 * * * node /scripts/jd_opencard14.js >> /scripts/logs/jd_opencard14.log 2>&1
 #jd_opencard13
@@ -161,8 +165,6 @@
 0 0 * * *  node /scripts/jx_cfdtx.js >> /scripts/logs/jx_cfdtx.log 2>&1
 # 京东极速版
 48 0,12,18 * * *  node /scripts/jd_speed_sign.js >> /scripts/logs/jd_speed_sign.log 2>&1
-# 京东抽奖机
-22 0,12,18 * * *  node /scripts/jd_lotteryMachine.js >> /scripts/logs/jd_lotteryMachine.log 2>&1
 # 宠汪汪
 5 */2,9,23 * * * node /scripts/jd_joy.js >> /scripts/logs/jd_joy.log 2>&1
 # 宠汪汪积分兑换京豆
