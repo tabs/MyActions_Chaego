@@ -105,6 +105,8 @@ if ($.isNode()) {
         await $.wait(1000);
         console.log(`\n开始做浏览品牌小店任务`)
         await doTask2();
+        console.log(`\n去瓜分红包🎈`)
+        await starShopDraw();
     }
 
     function sign() {
@@ -200,12 +202,13 @@ if ($.isNode()) {
               } else {
                 if (data) {
                  data = JSON.parse(data);
-                 console.log(JSON.stringify(data))
+                 //console.log(JSON.stringify(data))
                  if(data.success && !data.data.finish && data.code === 0){
                      console.log(`浏览成功，获得热爱值：10`)
                  }else{
                      console.log(data.errMsg)
                      code = data.code;
+                     return
                  }
                 } else {
                   console.log(`京东服务器返回空数据`)
@@ -227,7 +230,7 @@ if ($.isNode()) {
           for( i = 0; i < 5; i++){
                 console.log(`\n去浏览${ItemArr1[i].itemName}`)
                 await Taks1(ItemArr1[i].itemId)
-                await $.wait(2500);
+                await $.wait(1500);
             }
         }else{
            console.log(`任务已完成`);
@@ -297,7 +300,8 @@ if ($.isNode()) {
                     console.log(`浏览成功，获得热爱值：10`)
                   }else{
                     console.log(data.errMsg)
-                    code = data.code; 
+                    code = data.code;
+                    return
                 }
                 } else {
                   console.log(`京东服务器返回空数据`)
@@ -317,8 +321,8 @@ if ($.isNode()) {
         if(ItemArr2 && ItemArr2.length){
             for( i = 0; i < 5; i++ ){
               console.log(`\n去浏览${ItemArr2[i].itemName}店铺`)
+              await $.wait(2000);
               await Taks2(ItemArr2[i].itemId)
-              await $.wait(2500);
               if(code === 2005)break
             }
            }else{
@@ -326,6 +330,53 @@ if ($.isNode()) {
                return
            }
       }
+
+    function starShopDraw() {
+      return new Promise(async (resolve) => {
+          let options = {
+            url: `https://api.m.jd.com/?functionId=starShopDraw&body=%7B%22linkId%22%3A%22${linkId}%22%7D&_t=${Date.now()}&appid=activities_platform`,
+            headers: {
+              "Host": "api.m.jd.com",
+              "Connection": "keep-alive",
+              "Accept": "application/json, text/plain, */*",
+              "Origin": "https://pro.m.jd.com",
+              "User-Agent": $.UA,
+              "Sec-Fetch-Mode": "cors",
+              "X-Requested-With": "com.jingdong.app.mall",
+              "Sec-Fetch-Site": "same-site",
+              "Referer": `https://pro.m.jd.com/mall/active/3GpvvutHU8PsMmvTXqYya3PQNTG3/index.html?activityId=${linkId}&encryptPin=SfGznooJLloOJOfIzApQxA&taskId=397&taskId=397&tttparams=jkMnnhUeyJnTGF0IjoiMzguODg4NzIiLCJnTG5nIjoiMTE1LjUxNDI4IiwiZ3BzX2FyZWEiOiIwXzBfMF8wIiwibGF0IjowLCJsbmciOjAsIm1vZGVsIjoiTWk5IFBybyA1RyIsInByc3RhdGUiOiIwIiwidW5fYXJlYSI6IjVfMTk5XzUzODY1XzUzODcyIn70%3D&un_area=5_199_53865_53872`,
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+              "Cookie": cookie,
+            }
+          }
+          $.get(options, async (err, resp, data) => {
+        try {
+          if (err) {
+            console.log(`${JSON.stringify(err)}`)
+            console.log(`initateCoinDozer API请求失败，请检查网路重试`)
+          } else {
+           if(data){
+            data = JSON.parse(data);
+            //console.log(JSON.stringify(data));
+            if(data.code === 0){
+              console.log(`瓜分成功，获得红包金额为：${data.data.rewardMoney}`)
+            }else{
+              console.log(data.errMsg)
+            }
+             }else{
+               console.log(JSON.stringify(data));
+               return
+           }
+         }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve();
+        }
+      });
+    });
+  }
 
       function starShopPageInfo() {
         return new Promise(async (resolve) => {
