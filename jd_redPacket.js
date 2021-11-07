@@ -431,7 +431,7 @@ function jinli_h5assist(redPacketId) {
 }
 //领取红包API
 function h5receiveRedpacketAll() {
-  const options = taskUrl(arguments.callee.name.toString(), {"clientInfo":{}})
+  const options = taskUrl(arguments.callee.name.toString(), {"isjdapp":1,"random":"33235811","log":"4817e3a2~8,~1wsv3ig","sceneid":"JLHBhPageh5"})
   return new Promise((resolve) => {
     $.post(options, (err, resp, data) => {
       try {
