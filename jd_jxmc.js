@@ -81,7 +81,7 @@ if ($.isNode()) {
     return;
   }
   let res = await getAuthorShareCode('https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/jxmc.json')
-  $.codeList = [...(res || [])];
+  $.codeList = [];
   console.log('京喜牧场\n' +
     '更新时间：2021-10-30\n' +
     '活动入口：京喜APP-我的-京喜牧场\n' +
@@ -132,12 +132,21 @@ if ($.isNode()) {
       $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
       UA = UAInfo[$.UserName]
       token = await getJxToken()
+      if( res && j === 0 ){
+        console.log(`账号一去助力作者：`)
+        for(let l = 0; l < res.length; l++){
+        console.log(`\n${$.UserName}去助力作者的助力码：${res[l].code}`);
+        $.oneCodeInfo = res[l];
+        await takeGetRequest('help');
+        await $.wait(2000);
+        }
+      }
       for (let k = 0; k < $.codeList.length; k++) {
         $.oneCodeInfo = $.codeList[k];
         if($.codeList[k].name === $.UserName){
           continue;
         } else {
-          console.log(`\n${$.UserName}去助力${$.codeList[k].name},助力码：${$.codeList[k].code}\n`);
+          console.log(`\n${$.UserName}去助力${$.codeList[k].name},助力码：${$.codeList[k].code}`);
           await takeGetRequest('help');
           await $.wait(2000);
         }
