@@ -57,6 +57,7 @@ if ($.isNode()) {
     return;
   }
   let res = await getAuthorShareCode('https://wuzhi03.coding.net/p/dj/d/shareCodes/git/raw/main/jxSign.json')
+  let res = res[Math.floor(Math.random()*4)]
   $.shareCodes = [];
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
