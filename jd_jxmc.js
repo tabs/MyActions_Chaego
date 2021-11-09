@@ -747,6 +747,9 @@ function dealReturn(type, data) {
       data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
       if (data.ret === 0 && data.data.result === 0) {
         console.log(`助力成功`);
+      } else if (data.data.result === 3) {
+        console.log(`该好友助力已满`);
+        $.delcode = true;
       } else if (data.ret === 0 && data.data.result === 4) {
         console.log(`助力次数已用完 或者已助力`);
         //$.canHelp = false;
